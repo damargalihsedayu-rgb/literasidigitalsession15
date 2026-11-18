@@ -1,0 +1,2488 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Misi Desainer Pembelajaran: Ekspedisi Edukasi Magetan</title>
+  <style>
+    /* ==========================================================================
+       VARIABEL TEMA & DUKUNGAN MODE TERANG / GELAP (prefers-color-scheme)
+       ========================================================================== */
+    :root {
+      --bg-main: #f3f4f8;
+      --bg-card: #ffffff;
+      --bg-subtle: #eef2ff;
+      --text-main: #1e1b4b;
+      --text-muted: #4b5563;
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --secondary: #7c3aed;
+      --accent: #f59e0b;
+      --accent-soft: #fef3c7;
+      --success: #059669;
+      --success-bg: #d1fae5;
+      --danger: #dc2626;
+      --danger-bg: #fee2e2;
+      --border: #e0e7ff;
+      --shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.05);
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-main: #0f172a;
+        --bg-card: #1e293b;
+        --bg-subtle: #312e81;
+        --text-main: #f8fafc;
+        --text-muted: #cbd5e1;
+        --primary: #6366f1;
+        --primary-hover: #818cf8;
+        --secondary: #a855f7;
+        --accent: #fbbf24;
+        --accent-soft: #451a03;
+        --success: #10b981;
+        --success-bg: #064e3b;
+        --danger: #f87171;
+        --danger-bg: #7f1d1d;
+        --border: #334155;
+        --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: linear-gradient(135deg, var(--bg-main) 0%, var(--bg-subtle) 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px;
+    }
+
+    /* ==========================================================================
+       TATA LETAK UTAMA (MOBILE-FIRST)
+       ========================================================================== */
+    .app-container {
+      width: 100%;
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Header Navigasi & Status */
+    .top-bar {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 10px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--primary);
+    }
+
+    .top-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Bilah Status Permainan (HUD) */
+    .hud-bar {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 12px 16px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    @media (min-width: 600px) {
+      .hud-bar {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .hud-item {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.8rem;
+      opacity: 0.95;
+    }
+
+    .hud-value {
+      font-size: 1.15rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Kartu Konten Utama */
+    .card {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    @media (min-width: 640px) {
+      .card {
+        padding: 28px;
+      }
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Tipografi & Lencana */
+    h1 {
+      font-size: 1.65rem;
+      line-height: 1.25;
+      margin-bottom: 8px;
+      color: var(--primary);
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    p {
+      margin-bottom: 12px;
+      color: var(--text-muted);
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-soft);
+      color: var(--text-main);
+      border: 1px solid var(--accent);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    /* ==========================================================================
+       TOMBOL & INPUT (MINIMAL 44PX UNTUK AKSESIBILITAS SENTUH)
+       ========================================================================== */
+    .btn {
+      min-height: 46px;
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      border: 2px solid transparent;
+      font-family: inherit;
+      font-size: 0.98rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background-color 0.2s, transform 0.15s, border-color 0.2s;
+      text-align: left;
+      color: var(--text-main);
+      background: var(--bg-subtle);
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background: var(--secondary);
+      color: #ffffff;
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #1e1b4b;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-sm {
+      min-height: 44px;
+      padding: 6px 12px;
+      font-size: 0.88rem;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .input-group label {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .text-input, .select-input {
+      min-height: 48px;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border);
+      background: var(--bg-main);
+      color: var(--text-main);
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .text-input:focus, .select-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    /* ==========================================================================
+       KOMPONEN SOAL & INTERAKSI (PILIHAN GANDA, PASANGKAN, URUTKAN)
+       ========================================================================== */
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 10px 0 18px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .scenario-box {
+      background: var(--bg-subtle);
+      border-left: 5px solid var(--primary);
+      padding: 14px;
+      border-radius: var(--radius-md);
+      margin-bottom: 16px;
+      font-size: 0.96rem;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .option-btn {
+      width: 100%;
+      justify-content: flex-start;
+      background: var(--bg-main);
+      border: 2px solid var(--border);
+      padding: 12px 16px;
+      font-weight: 600;
+    }
+
+    .option-btn.selected {
+      border-color: var(--primary);
+      background: var(--bg-subtle);
+    }
+
+    /* Antarmuka Mencocokkan (Matching) */
+    .match-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    @media (min-width: 600px) {
+      .match-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .match-col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .match-item {
+      min-height: 48px;
+      padding: 10px 12px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-main);
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      text-align: left;
+    }
+
+    .match-item.active-pick {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      font-weight: 700;
+    }
+
+    .match-item.paired {
+      border-color: var(--success);
+      background: var(--success-bg);
+      cursor: default;
+    }
+
+    /* Antarmuka Urutkan / Drag & Drop */
+    .sortable-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .sortable-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 14px;
+      background: var(--bg-main);
+      border: 2px dashed var(--primary);
+      border-radius: var(--radius-md);
+      cursor: grab;
+    }
+
+    .sortable-item.dragging {
+      opacity: 0.5;
+      background: var(--accent-soft);
+    }
+
+    .order-controls {
+      display: flex;
+      gap: 4px;
+    }
+
+    /* Kotak Umpan Balik */
+    .feedback-box {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      border: 2px solid transparent;
+    }
+
+    .feedback-box.correct {
+      background: var(--success-bg);
+      border-color: var(--success);
+      color: var(--text-main);
+    }
+
+    .feedback-box.wrong {
+      background: var(--danger-bg);
+      border-color: var(--danger);
+      color: var(--text-main);
+    }
+
+    /* Lencana & Grid Statistik */
+    .badge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .badge-card {
+      background: var(--bg-main);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      text-align: center;
+      opacity: 0.45;
+    }
+
+    .badge-card.unlocked {
+      opacity: 1;
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .badge-icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* Modal Dialog */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.72);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 100;
+    }
+
+    .modal-content {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      max-width: 650px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    /* Tabel Papan Skor & Laporan */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 0.92rem;
+    }
+
+    .data-table th, .data-table td {
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    .data-table th {
+      background: var(--bg-subtle);
+    }
+
+    /* ==========================================================================
+       ANIMASI & PENGHORMATAN PREFERS-REDUCED-MOTION
+       ========================================================================== */
+    @keyframes shakeError {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .shake {
+      animation: shakeError 0.35s ease;
+    }
+
+    .confetti-piece {
+      position: fixed;
+      width: 10px;
+      height: 14px;
+      top: -20px;
+      z-index: 200;
+      pointer-events: none;
+      animation: confettiFall 2.4s linear forwards;
+    }
+
+    @keyframes confettiFall {
+      to {
+        transform: translateY(105vh) rotate(540deg);
+        opacity: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .confetti-piece {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- HEADER NAVIGASI ATAS -->
+    <header class="top-bar" role="banner">
+      <div class="brand-title">
+        <span aria-hidden="true">🎓</span>
+        <span>Misi Desainer Pembelajaran</span>
+      </div>
+      <div class="top-controls">
+        <button id="btnBantuan" class="btn btn-sm btn-outline" type="button" aria-label="Buka Ringkasan Materi Bantuan">
+          📖 Buku Saku TP
+        </button>
+        <button id="btnPapanSkor" class="btn btn-sm btn-outline" type="button" aria-label="Buka Papan Skor Lokal">
+          🏆 Papan Skor
+        </button>
+        <button id="btnSuara" class="btn btn-sm btn-outline" type="button" aria-pressed="false" aria-label="Matikan atau Nyalakan Suara">
+          🔊 Suara: Aktif
+        </button>
+      </div>
+    </header>
+
+    <!-- BILAH STATUS PERMAINAN (HUD) -->
+    <section id="hudBar" class="hud-bar hidden" aria-label="Status Permainan">
+      <div class="hud-item">
+        <span>Desainer Muda</span>
+        <div id="hudNama" class="hud-value">-</div>
+      </div>
+      <div class="hud-item">
+        <span>Nyawa Semangat</span>
+        <div id="hudNyawa" class="hud-value" aria-live="polite">❤️❤️❤️</div>
+      </div>
+      <div class="hud-item">
+        <span>Skor & Kombo</span>
+        <div class="hud-value" aria-live="polite">
+          <span id="hudSkor">0</span>
+          <span id="hudKombo" style="font-size:0.85rem; background:rgba(255,255,255,0.2); padding:2px 8px; border-radius:99px;">🔥 x1</span>
+        </div>
+      </div>
+      <div class="hud-item">
+        <span>Sisa Waktu Soal</span>
+        <div id="hudTimer" class="hud-value" aria-live="off">∞</div>
+      </div>
+    </section>
+
+    <!-- 1. LAYAR AWAL (BERANDA) -->
+    <main id="screenStart" class="card" role="main">
+      <span class="pill-badge">✨ Proyek Akhir Berbantuan AI — S1 Teknologi Pendidikan</span>
+      <h1>Misi Desainer Pembelajaran: Ekspedisi Edukasi Magetan</h1>
+      <p>
+        Selamat datang, Desainer Pembelajaran Junior! Lima institusi pendidikan di Kabupaten Magetan sedang menghadapi tantangan pembelajaran nyata. Tugasmu adalah menerapkan konsep dasar Teknologi Pendidikan untuk merancang solusi terbaik di setiap sekolah.
+      </p>
+
+      <div class="input-group">
+        <label for="inputNamaPemain">Nama Lengkap / Panggilan Mahasiswa:</label>
+        <input id="inputNamaPemain" class="text-input" type="text" placeholder="Contoh: Damar Galih" maxlength="40" autocomplete="off" />
+      </div>
+
+      <div class="input-group">
+        <label for="selectModeTimer">Pengaturan Timer per Tantangan:</label>
+        <select id="selectModeTimer" class="select-input">
+          <option value="0">Santai (Tanpa Batas Waktu)</option>
+          <option value="45">Tantangan Fokus (45 Detik per Soal)</option>
+          <option value="30">Mode Cepat (30 Detik per Soal)</option>
+        </select>
+      </div>
+
+      <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:18px;">
+        <button id="btnMulaiGame" class="btn btn-primary" type="button">
+          🚀 Mulai Ekspedisi (Pre-Test)
+        </button>
+        <button id="btnCaraBermain" class="btn btn-outline" type="button">
+          🧭 Cara Bermain & Peta Misi
+        </button>
+      </div>
+    </main>
+
+    <!-- 2. LAYAR PENGANTAR LEVEL (BRIEFING TUJUAN PEMBELAJARAN) -->
+    <section id="screenBriefing" class="card hidden" aria-live="polite">
+      <span id="briefBadge" class="pill-badge">Lokasi Misi</span>
+      <h2 id="briefTitle">Judul Level</h2>
+      <div id="briefStory" class="scenario-box"></div>
+      <h3>🎯 Tujuan Pembelajaran Level Ini:</h3>
+      <p id="briefObjective"></p>
+      <button id="btnMulaiLevel" class="btn btn-primary" type="button">
+        ⚡ Terima Kasus & Mulai Tantangan
+      </button>
+    </section>
+
+    <!-- 3. LAYAR PERMAINAN UTAMA (PRE-TEST, 5 LEVEL, POST-TEST) -->
+    <section id="screenQuiz" class="card hidden" aria-live="polite">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <span id="quizPhaseBadge" class="pill-badge">Tahap</span>
+        <span id="quizCounter" style="font-weight:700; font-size:0.9rem;">Soal 1 / 6</span>
+      </div>
+
+      <div class="progress-track" aria-hidden="true">
+        <div id="quizProgressFill" class="progress-fill"></div>
+      </div>
+
+      <div id="quizScenario" class="scenario-box"></div>
+      <h2 id="quizPrompt" style="font-size:1.15rem;">Pertanyaan</h2>
+
+      <!-- Ruang Interaksi Dinamis (Pilihan Ganda / Matching / Ordering) -->
+      <div id="quizInteractionArea"></div>
+
+      <!-- Tombol Aksi Submit untuk Soal Non-Pilihan Ganda Langsung -->
+      <div id="quizActionRow" style="margin-top:14px;" class="hidden">
+        <button id="btnKirimJawaban" class="btn btn-primary" type="button">
+          ✅ Periksa Keputusan Desain
+        </button>
+      </div>
+
+      <!-- Kotak Umpan Balik Instan -->
+      <div id="quizFeedback" class="feedback-box hidden" role="status" aria-live="assertive">
+        <h3 id="feedbackTitle">Status</h3>
+        <p id="feedbackText" style="color:inherit; margin-bottom:10px;"></p>
+        <button id="btnLanjutSoal" class="btn btn-primary btn-sm" type="button">
+          Lanjut ke Tantangan Berikutnya ➡️
+        </button>
+      </div>
+    </section>
+
+    <!-- 4. LAYAR SELESAI LEVEL & REFLEKSI SINGKAT -->
+    <section id="screenLevelComplete" class="card hidden" aria-live="polite">
+      <span class="pill-badge">🎉 Kasus Sekolah Terpecahkan!</span>
+      <h2 id="completeTitle">Level Selesai</h2>
+      <p id="completeSummary"></p>
+
+      <div id="earnedBadgeBox" class="scenario-box" style="display:flex; align-items:center; gap:14px;">
+        <span id="earnedBadgeIcon" style="font-size:2.6rem;">🏅</span>
+        <div>
+          <strong id="earnedBadgeName" style="font-size:1.1rem; display:block;">Nama Lencana</strong>
+          <span id="earnedBadgeDesc" style="font-size:0.9rem;">Deskripsi pencapaian</span>
+        </div>
+      </div>
+
+      <div class="input-group" style="margin-top:14px;">
+        <label for="selectRefleksi">💡 Refleksi Singkat Desainer Pembelajaran: Apa poin terpenting yang kamu pelajari dari kasus barusan?</label>
+        <select id="selectRefleksi" class="select-input">
+          <option value="Keputusan pembelajaran harus selalu berangkat dari analisis kebutuhan dan karakteristik siswa.">Keputusan pembelajaran harus selalu berangkat dari analisis kebutuhan dan karakteristik siswa.</option>
+          <option value="Pemilihan teori dan media tidak didasarkan pada kecanggihan semata, melainkan kesesuaian tujuan.">Pemilihan teori dan media tidak didasarkan pada kecanggihan semata, melainkan kesesuaian tujuan.</option>
+          <option value="Evaluasi dan pemanfaatan AI wajib menjaga integritas akademik serta berpihak pada proses belajar.">Evaluasi dan pemanfaatan AI wajib menjaga integritas akademik serta berpihak pada proses belajar.</option>
+        </select>
+      </div>
+
+      <button id="btnLanjutLevelBerikutnya" class="btn btn-primary" type="button">
+        🚀 Lanjutkan Ekspedisi
+      </button>
+    </section>
+
+    <!-- 5. LAYAR HASIL AKHIR & UNDUH LAPORAN BUKTI UJI -->
+    <section id="screenResult" class="card hidden" aria-live="polite">
+      <span class="pill-badge">🏁 Ekspedisi Selesai — Laporan Kompetensi</span>
+      <h2>Hasil Akhir Desainer Pembelajaran</h2>
+      <p id="resultGreeting"></p>
+
+      <!-- Perbandingan Pre-test vs Post-test -->
+      <div class="scenario-box">
+        <h3>📊 Bukti Efektivitas Belajar (Pre-Test vs Post-Test)</h3>
+        <p id="resultPrePostText" style="margin-bottom:4px; color:var(--text-main); font-weight:700;"></p>
+        <p id="resultGainAnalysis" style="margin-bottom:0; font-size:0.9rem;"></p>
+      </div>
+
+      <!-- Koleksi Lencana -->
+      <h3>🎖️ Lencana Keahlian yang Diraih</h3>
+      <div id="finalBadgeGrid" class="badge-grid"></div>
+
+      <!-- Tabel Akurasi per Level -->
+      <h3>📈 Rincian Akurasi per Level Materi</h3>
+      <table class="data-table" aria-label="Tabel Akurasi Materi">
+        <thead>
+          <tr>
+            <th>Level & Materi</th>
+            <th>Lokasi Kasus</th>
+            <th>Akurasi</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="resultLevelTableBody"></tbody>
+      </table>
+
+      <!-- Rekomendasi Belajar Personal -->
+      <div id="resultRecommendationBox" class="scenario-box" style="margin-top:14px;">
+        <h3>🧭 Diagnosis Materi & Rekomendasi Belajar</h3>
+        <p id="resultRecommendationText" style="margin-bottom:0;"></p>
+      </div>
+
+      <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:18px;">
+        <button id="btnUnduhLaporan" class="btn btn-accent" type="button">
+          📥 Unduh Laporan Hasil Uji (.txt)
+        </button>
+        <button id="btnMainLagi" class="btn btn-primary" type="button">
+          🔄 Mainkan Ulang (Soal Diacak Baru)
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <!-- MODAL: BUKU SAKU MATERI BANTUAN & CARA BERMAIN -->
+  <div id="modalOverlay" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 id="modalTitle" style="margin-bottom:0;">Judul Modal</h2>
+        <button id="btnTutupModal" class="btn btn-sm btn-outline" type="button" aria-label="Tutup Jendela Dialog">
+          ✖ Tutup
+        </button>
+      </div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       BAGIAN 1: BANK DATA SOAL, CERITA LEVEL, DAN RINGKASAN MATERI
+       (Dipisahkan di bagian atas agar mudah diedit oleh dosen atau mahasiswa)
+       ========================================================================== */
+    const BANK_DATA_GAME = {
+      // 5 Soal Pre-Test (Mewakili Level 1 s.d. Level 5)
+      preTest: [
+        {
+          id: "pre1",
+          type: "mcq",
+          scenario: "Seorang mahasiswa TP diminta merancang tata urutan materi digital untuk memfasilitasi belajar siswa SMP.",
+          prompt: "Menurut definisi AECT 1994, kegiatan merancang spesifikasi pesan dan strategi pembelajaran termasuk ke dalam kawasan...",
+          options: ["Kawasan Desain", "Kawasan Pemanfaatan", "Kawasan Pengelolaan", "Kawasan Evaluasi"],
+          answer: "Kawasan Desain",
+          hint: "Ingat tahap paling awal saat kita membuat cetak biru (blueprint) sebelum memproduksi media.",
+          explanation: "Kawasan Desain meliputi desain sistem pembelajaran, desain pesan, strategi pembelajaran, dan karakteristik pebelajar."
+        },
+        {
+          id: "pre2",
+          type: "mcq",
+          scenario: "Guru memberikan bantuan bertahap kepada siswa saat memecahkan masalah rumit, lalu mengurangi bantuan itu saat siswa mulai mahir.",
+          prompt: "Praktik pemberian bantuan bertahap (scaffolding) dan konsep Zone of Proximal Development (ZPD) digagas oleh tokoh teori belajar...",
+          options: ["Lev Vygotsky", "B.F. Skinner", "Jean Piaget", "Ivan Pavlov"],
+          answer: "Lev Vygotsky",
+          hint: "Tokoh ini terkenal dengan teori konstruktivisme sosial yang menekankan interaksi dengan orang yang lebih ahli.",
+          explanation: "Lev Vygotsky memperkenalkan konsep ZPD dan scaffolding dalam konstruktivisme sosial."
+        },
+        {
+          id: "pre3",
+          type: "mcq",
+          scenario: "Tim pengembang instruksional sedang mengidentifikasi kesenjangan performa siswa dan karakteristik awal mereka sebelum merancang modul.",
+          prompt: "Dalam model desain pembelajaran ADDIE, kegiatan tersebut berada pada tahap...",
+          options: ["Analyze (Analisis)", "Design (Desain)", "Develop (Pengembangan)", "Implement (Implementasi)"],
+          answer: "Analyze (Analisis)",
+          hint: "Tahap pertama dalam akronim A-D-D-I-E.",
+          explanation: "Tahap Analyze bertujuan mengidentifikasi masalah, kebutuhan belajar, karakteristik siswa, dan konteks lingkungan."
+        },
+        {
+          id: "pre4",
+          type: "mcq",
+          scenario: "Sekolah di daerah lereng gunung memiliki koneksi internet yang tidak stabil, tetapi memiliki proyektor dan komputer laboratorium.",
+          prompt: "Prinsip pemilihan media pembelajaran yang paling tepat diterapkan dalam kondisi tersebut adalah...",
+          options: [
+            "Memilih media interaktif luar jaringan (offline) yang sesuai tujuan belajar dan kondisi infrastruktur",
+            "Memaksakan penggunaan video streaming resolusi 4K agar terlihat modern",
+            "Menghapus penggunaan seluruh media visual dan kembali ke ceramah murni",
+            "Membeli perangkat realitas virtual (VR) mahal tanpa pelatihan guru"
+          ],
+          answer: "Memilih media interaktif luar jaringan (offline) yang sesuai tujuan belajar dan kondisi infrastruktur",
+          hint: "Pertimbangkan kriteria aksesibilitas (Access) dan ketersediaan fasilitas lokal.",
+          explanation: "Pemilihan media yang efektif wajib mempertimbangkan kesesuaian dengan tujuan belajar, karakteristik siswa, dan daya dukung fasilitas."
+        },
+        {
+          id: "pre5",
+          type: "mcq",
+          scenario: "Seorang dosen ingin memastikan mahasiswa menggunakan kecerdasan buatan (AI) secara etis saat menyusun tugas proyek akhir.",
+          prompt: "Praktik pemanfaatan AI yang paling etis dan bertanggung jawab dalam pembelajaran adalah...",
+          options: [
+            "Menggunakan AI sebagai mitra diskusi dan perancangan draf, lalu memverifikasi serta menguji hasilnya secara mandiri",
+            "Menyalin seluruh hasil keluaran AI tanpa membaca atau memvalidasi kebenarannya",
+            "Memalsukan data hasil uji coba lapangan menggunakan generator teks AI",
+            "Menyembunyikan penggunaan AI dan mengklaim seluruh kode sebagai ketikan manual 100%"
+          ],
+          answer: "Menggunakan AI sebagai mitra diskusi dan perancangan draf, lalu memverifikasi serta menguji hasilnya secara mandiri",
+          hint: "AI berfungsi sebagai alat bantu berpikir (cognitive tool), bukan pengganti kejujuran akademik.",
+          explanation: "Pemanfaatan AI yang etis menuntut transparansi, verifikasi kritis oleh manusia, serta pengujian empiris yang jujur."
+        }
+      ],
+
+      // 5 Soal Post-Test (Setara secara bobot & indikator dengan Pre-Test, konteks berbeda)
+      postTest: [
+        {
+          id: "post1",
+          type: "mcq",
+          scenario: "Seorang pengelola laboratorium komputer sekolah mengatur jadwal pemakaian, perawatan jaringan, dan sistem informasi sumber belajar.",
+          prompt: "Dalam lima kawasan Teknologi Pendidikan (AECT 1994), aktivitas pengendalian dan pengorganisasian sumber belajar ini masuk dalam...",
+          options: ["Kawasan Pengelolaan", "Kawasan Pengembangan", "Kawasan Desain", "Kawasan Evaluasi"],
+          answer: "Kawasan Pengelolaan",
+          hint: "Kawasan ini berkaitan dengan manajemen proyek, manajemen sumber, manajemen sistem penyampaian, dan informasi.",
+          explanation: "Kawasan Pengelolaan meliputi pengendalian teknologi pendidikan melalui perencanaan, pengorganisasian, dan pengawasan sumber."
+        },
+        {
+          id: "post2",
+          type: "mcq",
+          scenario: "Sebelum masuk ke materi inti, seorang guru menarik perhatian siswa, menyampaikan tujuan, dan menggali pengetahuan prasyarat siswa.",
+          prompt: "Rangkaian langkah sistematis yang mengaitkan kondisi internal dan eksternal belajar tersebut merupakan penerapan teori...",
+          options: [
+            "Nine Events of Instruction dari Robert M. Gagné",
+            "Classical Conditioning dari Ivan Pavlov",
+            "Tahap Perkembangan Psikoseksual Freud",
+            "Hukum Efek dari Edward Thorndike"
+          ],
+          answer: "Nine Events of Instruction dari Robert M. Gagné",
+          hint: "Tokoh ini merumuskan 9 peristiwa pembelajaran yang menjadi jembatan antara behaviorisme dan kognitivisme.",
+          explanation: "Robert M. Gagné menyusun 9 Peristiwa Pembelajaran (Nine Events of Instruction) untuk mendukung pemrosesan informasi siswa."
+        },
+        {
+          id: "post3",
+          type: "mcq",
+          scenario: "Setelah rancangan cetak biru selesai, tim mulai menulis kode aplikasi game edukasi, membuat ilustrasi SVG, dan memproduksi paket bahan ajar.",
+          prompt: "Pada model ADDIE, aktivitas memproduksi dan mewujudkan rancangan menjadi produk nyata berada pada tahap...",
+          options: ["Develop (Pengembangan)", "Analyze (Analisis)", "Design (Desain)", "Evaluate (Evaluasi)"],
+          answer: "Develop (Pengembangan)",
+          hint: "Tahap ketiga setelah Analyze dan Design.",
+          explanation: "Tahap Develop adalah proses mewujudkan spesifikasi desain menjadi produk atau bahan ajar siap uji."
+        },
+        {
+          id: "post4",
+          type: "mcq",
+          scenario: "Tujuan pembelajaran menuntut siswa mampu mempraktikkan prosedur pemasangan konektor kabel jaringan secara presisi.",
+          prompt: "Media pembelajaran yang paling tepat dipilih untuk mencapai tujuan psikomotorik dan prosedural tersebut adalah...",
+          options: [
+            "Simulasi interaktif langkah demi langkah yang dipadukan dengan video demonstrasi dekat (close-up)",
+            "Rekaman siniar (podcast) audio murni berdurasi 60 menit tanpa visual",
+            "Poster dinding berisi definisi sejarah jaringan komputer",
+            "Teks esai filosofis tentang perkembangan telekomunikasi"
+          ],
+          answer: "Simulasi interaktif langkah demi langkah yang dipadukan dengan video demonstrasi dekat (close-up)",
+          hint: "Keterampilan prosedural membutuhkan visualisasi gerak dan kesempatan latihan interaktif.",
+          explanation: "Tujuan prosedural/psikomotorik memerlukan media yang menampilkan gerak visual jelas serta simulasi praktik."
+        },
+        {
+          id: "post5",
+          type: "mcq",
+          scenario: "Seorang desainer pembelajaran menyusun rumusan: 'Melalui simulasi kasus, mahasiswa dapat mengklasifikasikan 5 kawasan TP dengan akurasi minimal 80%.'",
+          prompt: "Dalam rumus indikator ABCD (Audience, Behavior, Condition, Degree), frasa 'dengan akurasi minimal 80%' menunjukkan unsur...",
+          options: ["Degree (Tingkat Keberhasilan)", "Audience (Sasaran Pebelajar)", "Behavior (Perilaku Spesifik)", "Condition (Kondisi Belajar)"],
+          answer: "Degree (Tingkat Keberhasilan)",
+          hint: "Unsur ini menunjukkan standar kualitas, kuantitas, atau batas minimal capaian.",
+          explanation: "Degree (D) menetapkan kriteria atau tingkat penguasaan minimal yang harus dicapai pebelajar."
+        }
+      ],
+
+      // Data 5 Level Utama (Masing-masing 6 soal = 30 butir tantangan)
+      levels: [
+        // ====================================================================
+        // LEVEL 1: DASAR TEKNOLOGI PENDIDIKAN (6 SOAL)
+        // ====================================================================
+        {
+          levelNumber: 1,
+          title: "Level 1: Dasar & Kawasan Teknologi Pendidikan",
+          schoolName: "SDN 1 Sarangan (Kawasan Lereng Lawu, Magetan)",
+          story: "Kepala SDN 1 Sarangan ingin menata ulang program inovasi sekolah, tetapi para guru masih bingung membedakan mana kegiatan merancang, memproduksi, memanfaatkan, mengelola, dan mengevaluasi sumber belajar.",
+          objective: "Mahasiswa mampu mengidentifikasi definisi resmi Teknologi Pendidikan (AECT) serta membedakan 5 kawasan utamanya (Desain, Pengembangan, Pemanfaatan, Pengelolaan, dan Evaluasi) secara tepat.",
+          badge: {
+            id: "badge_lvl1",
+            icon: "🧭",
+            name: "Analis Kawasan Handal",
+            desc: "Menguasai definisi dan 5 kawasan utama Teknologi Pendidikan."
+          },
+          questions: [
+            {
+              id: "l1_q1",
+              type: "mcq",
+              scenario: "Dalam rapat guru SDN 1 Sarangan, muncul pertanyaan mengenai tujuan utama Teknologi Pendidikan menurut definisi AECT 2004/2008.",
+              prompt: "Apakah dua fokus utama dari studi dan praktik etis dalam definisi Teknologi Pendidikan modern (AECT)?",
+              options: [
+                "Memfasilitasi pembelajaran (facilitating learning) dan meningkatkan kinerja (improving performance)",
+                "Menggantikan peran guru sepenuhnya dan mendigitalkan seluruh gedung sekolah",
+                "Menjual perangkat keras komputer dan melatih teknisi mesin industri",
+                "Menghafal teori filsafat kuno tanpa menggunakan media pembelajaran"
+              ],
+              answer: "Memfasilitasi pembelajaran (facilitating learning) dan meningkatkan kinerja (improving performance)",
+              hint: "Ingat kalimat pembuka definisi AECT: 'Educational technology is the study and ethical practice of...'",
+              explanation: "Definisi AECT menekankan studi dan praktik etis untuk memfasilitasi pembelajaran serta meningkatkan kinerja melalui penciptaan, penggunaan, dan pengelolaan proses serta sumber teknologi yang tepat."
+            },
+            {
+              id: "l1_q2",
+              type: "match",
+              scenario: "Bantu guru-guru SDN 1 Sarangan memasangkan setiap aktivitas nyata di sekolah dengan Kawasan Teknologi Pendidikan (AECT 1994) yang tepat!",
+              prompt: "Klik satu istilah Kawasan di kolom kiri, lalu klik contoh aktivitas yang cocok di kolom kanan.",
+              pairs: [
+                { left: "Kawasan Desain", right: "Menyusun spesifikasi tujuan dan strategi pesan pembelajaran" },
+                { left: "Kawasan Pengembangan", right: "Memproduksi video animasi dan modul cetak dari naskah" },
+                { left: "Kawasan Pemanfaatan", right: "Menggunakan media di kelas dan menerapkan difusi inovasi" },
+                { left: "Kawasan Evaluasi", right: "Melaksanakan uji formatif dan analisis masalah capaian" }
+              ],
+              hint: "Perhatikan kata kuncinya: Desain = merancang; Pengembangan = memproduksi; Pemanfaatan = memakai di kelas; Evaluasi = menilai.",
+              explanation: "Lima kawasan AECT 1994 saling bersinergi mulai dari perancangan (Desain), produksi (Pengembangan), pemakaian (Pemanfaatan), pengaturan (Pengelolaan), hingga penilaian (Evaluasi)."
+            },
+            {
+              id: "l1_q3",
+              type: "mcq",
+              scenario: "Bu Rina mengatur tata letak huruf, kontras warna, dan penempatan ilustrasi pada lembar kerja siswa agar mudah dipahami anak kelas 4 SD.",
+              prompt: "Sub-kawasan di dalam Kawasan Desain yang secara khusus membahas rekayasa tanda dan tata letak fisik komunikasi ini disebut...",
+              options: ["Desain Pesan", "Manajemen Proyek", "Teknologi Cetak", "Evaluasi Sumatif"],
+              answer: "Desain Pesan",
+              hint: "Sub-kawasan ini mengatur bagaimana pesan visual/teks dikemas agar menarik perhatian dan mudah dipersepsi.",
+              explanation: "Desain Pesan meliputi perencanaan untuk merekayasa bentuk fisik dari pesan (tata letak, tipografi, visual) agar komunikasi efektif."
+            },
+            {
+              id: "l1_q4",
+              type: "mcq",
+              scenario: "Pak Budi mengajak rekan-rekan guru di SDN 1 Sarangan untuk mulai mengadopsi modul digital interaktif dan mengintegrasikannya ke dalam aturan kurikulum sekolah.",
+              prompt: "Di dalam Kawasan Pemanfaatan, upaya menyebarluaskan inovasi baru dan melembagakannya secara rutin disebut...",
+              options: [
+                "Difusi Inovasi serta Implementasi dan Institusionalisasi",
+                "Analisis Masalah dan Pengukuran Acuan Patokan",
+                "Teknologi Audiovisual dan Berbasis Komputer",
+                "Manajemen Sistem Penyampaian"
+              ],
+              answer: "Difusi Inovasi serta Implementasi dan Institusionalisasi",
+              hint: "Bagaimana sebuah inovasi baru dikenal (difusi) dan menjadi kebiasaan resmi di lembaga (institusionalisasi).",
+              explanation: "Kawasan Pemanfaatan mencakup pemanfaatan media, difusi inovasi, implementasi & institusionalisasi, serta kebijakan/regulasi."
+            },
+            {
+              id: "l1_q5",
+              type: "match",
+              scenario: "Kawasan Pengembangan menerjemahkan spesifikasi desain ke dalam bentuk fisik. Pasangkan jenis sub-kawasan pengembangan berikut dengan produknya!",
+              prompt: "Klik sub-kawasan di kiri, lalu klik contoh produknya di kanan.",
+              pairs: [
+                { left: "Teknologi Cetak", right: "Buku teks, modul belajar mandiri, dan poster grafik" },
+                { left: "Teknologi Audiovisual", right: "Film dokumenter pendidikan dan program video linier" },
+                { left: "Teknologi Berbasis Komputer", right: "Tutorial berbantuan komputer (CAI) dan simulasi digital" },
+                { left: "Teknologi Terpadu", right: "Multimedia hipermedia interaktif yang memadukan berbagai media" }
+              ],
+              hint: "Cocokkan sifat fisik medianya: kertas (cetak), proyeksi suara-gambar linier (audiovisual), mikroprosesor (komputer), atau gabungan terintegrasi (terpadu).",
+              explanation: "Kawasan Pengembangan terbagi atas teknologi cetak, audiovisual, berbasis komputer, dan teknologi terpadu (multimedia)."
+            },
+            {
+              id: "l1_q6",
+              type: "mcq",
+              scenario: "Sebelum modul cerita rakyat Lawu dicetak massal untuk seluruh kelas, tim mengujinya pada 5 orang siswa untuk menemukan bagian kalimat yang masih membingungkan.",
+              prompt: "Jenis evaluasi yang dilakukan saat produk masih dalam tahap pengembangan untuk tujuan perbaikan ini disebut...",
+              options: ["Evaluasi Formatif", "Evaluasi Sumatif", "Manajemen Informasi", "Karakteristik Pebelajar"],
+              answer: "Evaluasi Formatif",
+              hint: "Dilakukan saat program/produk masih 'dibentuk' (form) agar bisa direvisi sebelum rilis akhir.",
+              explanation: "Evaluasi formatif mengumpulkan data saat pengembangan berlangsung guna menyempurnakan kualitas produk pembelajaran."
+            }
+          ]
+        },
+
+        // ====================================================================
+        // LEVEL 2: TEORI BELAJAR (6 SOAL)
+        // ====================================================================
+        {
+          levelNumber: 2,
+          title: "Level 2: Teori Belajar & Psikologi Pembelajaran",
+          schoolName: "SMPN 2 Takeran (Kabupaten Magetan)",
+          story: "Para guru di SMPN 2 Takeran mendapati sebagian siswa pasif saat belajar konsep sains dan teknologi. Kamu diminta memilih landasan teori belajar beserta alasan pedagogis yang paling tepat untuk setiap kasus kelas.",
+          objective: "Mahasiswa mampu menganalisis kasus pembelajaran dan menentukan teori belajar (Behavioristik, Kognitif, Konstruktivistik, Piaget, Vygotsky, Bruner, Gagné) beserta alasan penerapannya.",
+          badge: {
+            id: "badge_lvl2",
+            icon: "🧠",
+            name: "Arsitek Kognitif",
+            desc: "Piawai memetakan teori belajar sesuai kebutuhan perkembangan siswa."
+          },
+          questions: [
+            {
+              id: "l2_q1",
+              type: "mcq",
+              scenario: "Kasus Kelas 7A: Guru ingin melatih ketepatan siswa mengetik 10 jari dan mengingat kosakata dasar melalui latihan berulang (drill) yang langsung memberi bintang poin setiap kali jawaban benar.",
+              prompt: "Teori belajar manakah yang paling sesuai beserta alasan utamanya?",
+              options: [
+                "Behavioristik (Operant Conditioning Skinner) — karena pemberian penguatan positif (reinforcement) segera setelah respons benar akan memperkuat pembentukan kebiasaan perilaku.",
+                "Konstruktivisme Radikal — karena mengetik 10 jari menuntut siswa merenungkan makna eksistensial tanpa umpan balik.",
+                "Teori Perkembangan Sensorimotor Piaget — karena siswa SMP berada pada rentang usia 0 sampai 2 tahun.",
+                "Discovery Learning murni tanpa panduan — karena siswa harus menemukan sendiri letak tombol papan ketik dari nol."
+              ],
+              answer: "Behavioristik (Operant Conditioning Skinner) — karena pemberian penguatan positif (reinforcement) segera setelah respons benar akan memperkuat pembentukan kebiasaan perilaku.",
+              hint: "Perhatikan kata kunci: latihan berulang (drill), respons terukur, dan hadiah bintang instan (reinforcement).",
+              explanation: "Pendekatan Behavioristik (B.F. Skinner) sangat efektif untuk keterampilan dasar dan pembentukan kebiasaan melalui stimulus, respons, dan penguatan segera."
+            },
+            {
+              id: "l2_q2",
+              type: "mcq",
+              scenario: "Kasus Kelas 8B: Siswa kesulitan memahami konsep gelombang elektromagnetik jika hanya diberi rumus. Guru lalu membawa alat peraga konkret (Enaktif), lanjut ke gambar diagram (Ikonik), baru ke rumus matematika (Simbolik).",
+              prompt: "Strategi pentahapan representasi belajar tersebut merupakan penerapan langsung dari teori...",
+              options: [
+                "Jerome Bruner (Tiga Tahap Representasi Kognitif) — karena membantu siswa membangun pemahaman dari manipulasi benda nyata menuju simbol abstrak.",
+                "Ivan Pavlov (Classical Conditioning) — karena menyamakan siswa dengan refleks bersyarat tanpa proses berpikir.",
+                "John B. Watson — karena menolak seluruh proses mental internal di dalam pikiran siswa.",
+                "Edward Thorndike — karena mengandalkan percobaan acak (trial and error) tanpa struktur."
+              ],
+              answer: "Jerome Bruner (Tiga Tahap Representasi Kognitif) — karena membantu siswa membangun pemahaman dari manipulasi benda nyata menuju simbol abstrak.",
+              hint: "Siapakah tokoh kognitif yang membagi mode belajar menjadi Enaktif (benda nyata), Ikonik (visual), dan Simbolik (bahasa/rumus)?",
+              explanation: "Jerome Bruner mengemukakan bahwa pembelajaran optimal berjalan melalui tahapan Enaktif (tindakan fisik), Ikonik (gambaran visual), dan Simbolik (abstraksi simbol)."
+            },
+            {
+              id: "l2_q3",
+              type: "match",
+              scenario: "Pasangkan nama tokoh teori belajar berikut dengan konsep kunci yang menjadi ciri khas pemikirannya!",
+              prompt: "Klik nama tokoh di kolom kiri, lalu klik konsep kuncinya di kolom kanan.",
+              pairs: [
+                { left: "Jean Piaget", right: "Asimilasi, akomodasi, dan tahap perkembangan kognitif biologis" },
+                { left: "Lev Vygotsky", right: "Zone of Proximal Development (ZPD) dan interaksi sosial budaya" },
+                { left: "Robert M. Gagné", right: "Sembilan peristiwa pembelajaran (Nine Events of Instruction)" },
+                { left: "B.F. Skinner", right: "Penguatan positif/negatif dalam Operant Conditioning" }
+              ],
+              hint: "Piaget = skema/asimilasi; Vygotsky = ZPD/sosial; Gagné = 9 Events; Skinner = Operant/reinforcement.",
+              explanation: "Memahami fokus tiap tokoh memudahkan desainer pembelajaran memilih strategi instruksional yang presisi."
+            },
+            {
+              id: "l2_q4",
+              type: "mcq",
+              scenario: "Kasus Kelas 9C: Dalam proyek pemecahan masalah sampah plastik di lingkungan Takeran, guru membagi siswa dalam kelompok kolaboratif dengan tutor sebaya yang lebih mahir untuk membimbing anggota lainnya.",
+              prompt: "Mengapa pendekatan Konstruktivisme Sosial Vygotsky paling tepat untuk kasus ini?",
+              options: [
+                "Karena interaksi sosial dengan rekan yang lebih kompeten membantu siswa melampaui batas kemampuan mandirinya di dalam ZPD.",
+                "Karena belajar hanya bisa terjadi apabila siswa diisolasi di ruangan tertutup tanpa komunikasi.",
+                "Karena pengetahuan bersifat statis dan cukup disalin dari papan tulis tanpa diskusi.",
+                "Karena tutor sebaya bertugas mengerjakan seluruh tugas kelompok agar anggota lain tidak perlu berpikir."
+              ],
+              answer: "Karena interaksi sosial dengan rekan yang lebih kompeten membantu siswa melampaui batas kemampuan mandirinya di dalam ZPD.",
+              hint: "Konstruktivisme sosial memandang belajar sebagai proses dialogis di dalam Zone of Proximal Development.",
+              explanation: "Menurut Vygotsky, kolaborasi dengan More Knowledgeable Other (guru atau teman sebaya yang lebih paham) mempercepat penguasaan kompetensi."
+            },
+            {
+              id: "l2_q5",
+              type: "mcq",
+              scenario: "Saat merancang e-modul, kamu memecah materi jaringan komputer yang panjang menjadi bagian-bagian kecil (chunking) dan memberi penanda warna agar memori kerja (working memory) siswa tidak kewalahan.",
+              prompt: "Keputusan desain ini didasarkan pada aliran teori belajar...",
+              options: [
+                "Kognitivisme (Teori Pemrosesan Informasi & Beban Kognitif) — karena kapasitas memori kerja manusia terbatas sehingga informasi perlu diorganisasikan secara terstruktur.",
+                "Behaviorisme Murni — karena pikiran manusia dianggap kotak hitam yang tidak perlu diperhatikan beban memorinya.",
+                "Refleks Fisiologis — karena warna pada modul hanya berfungsi menguji refleks pupil mata.",
+                "Hukuman Aversif — karena memecah materi bertujuan menghukum siswa yang lambat membaca."
+              ],
+              answer: "Kognitivisme (Teori Pemrosesan Informasi & Beban Kognitif) — karena kapasitas memori kerja manusia terbatas sehingga informasi perlu diorganisasikan secara terstruktur.",
+              hint: "Perhatikan istilah 'memori kerja' (working memory) dan 'chunking' dalam memproses informasi.",
+              explanation: "Teori Kognitif (termasuk Cognitive Load Theory dari Sweller) menekankan pengelolaan beban memori kerja agar informasi mudah dikodekan ke memori jangka panjang."
+            },
+            {
+              id: "l2_q6",
+              type: "mcq",
+              scenario: "Seorang siswa awalnya mengira semua benda logam pasti ditarik magnet. Ketika ia mencoba mendekatkan magnet ke sendok aluminium dan ternyata tidak menempel, ia mengubah struktur pemahamannya.",
+              prompt: "Dalam teori perkembangan kognitif Jean Piaget, proses mengubah skema kognitif lama agar sesuai dengan informasi baru yang tidak cocok lagi disebut...",
+              options: ["Akomodasi", "Asimilasi", "Pemadaman (Extinction)", "Generalisasi Stimulus"],
+              answer: "Akomodasi",
+              hint: "Jika informasi baru langsung masuk ke skema lama tanpa ubahan disebut Asimilasi; jika skema lama harus diubah/disesuaikan disebut...",
+              explanation: "Akomodasi adalah proses memodifikasi skema kognitif yang sudah ada atau membentuk skema baru ketika berhadapan dengan pengalaman yang tidak sesuai skema lama."
+            }
+          ]
+        },
+
+        // ====================================================================
+        // LEVEL 3: MODEL DESAIN PEMBELAJARAN ADDIE (6 SOAL)
+        // ====================================================================
+        {
+          levelNumber: 3,
+          title: "Level 3: Model Desain Pembelajaran (ADDIE)",
+          schoolName: "SMAN 1 Maospati (Kabupaten Magetan)",
+          story: "Tim pengembang kurikulum di SMAN 1 Maospati sedang menyusun program pembelajaran berdiferensiasi berbasis digital, namun tahapan kerja mereka masih sering melompat-lompat tanpa alur sistematis.",
+          objective: "Mahasiswa mampu menyusun urutan tahapan model desain pembelajaran ADDIE secara sistematis serta memetakan aktivitas kerja nyata ke dalam tahapan yang sesuai.",
+          badge: {
+            id: "badge_lvl3",
+            icon: "📐",
+            name: "Maestro ADDIE",
+            desc: "Terampil menata alur desain instruksional ADDIE secara sistematis."
+          },
+          questions: [
+            {
+              id: "l3_q1",
+              type: "order",
+              scenario: "Ketua tim pengembang SMAN 1 Maospati meminta kamu menata urutan 5 tahapan utama model ADDIE dari langkah paling awal hingga akhir!",
+              prompt: "Geser kartu (drag and drop) atau gunakan tombol panah ⬆️ ⬇️ untuk mengurutkan tahapan ADDIE dari nomor 1 sampai 5.",
+              correctOrder: [
+                "1. Analyze (Analisis kebutuhan, masalah, dan karakteristik siswa)",
+                "2. Design (Perumusan tujuan, instrumen tes, dan cetak biru materi)",
+                "3. Develop (Produksi media, penulisan modul, dan validasi ahli)",
+                "4. Implement (Penerapan produk pembelajaran di kelas nyata)",
+                "5. Evaluate (Penilaian efektivitas program secara menyeluruh)"
+              ],
+              hint: "Ingat urutan huruf akronim A - D - D - I - E: Analisis dulu, baru Desain, kemudian Kembangkan, Terapkan, dan Evaluasi.",
+              explanation: "Model ADDIE berjalan sistematis dari Analyze, Design, Develop, Implement, hingga Evaluate (dengan evaluasi formatif di setiap tahap)."
+            },
+            {
+              id: "l3_q2",
+              type: "match",
+              scenario: "Pasangkan setiap dokumen atau luaran kerja berikut dengan tahapan ADDIE tempat luaran tersebut dihasilkan!",
+              prompt: "Klik nama tahapan di kolom kiri, lalu klik luaran kerjanya di kolom kanan.",
+              pairs: [
+                { left: "Analyze", right: "Profil karakteristik siswa dan laporan kesenjangan kinerja" },
+                { left: "Design", right: "Storyboard, rumusan indikator ABCD, dan kisi-kisi instrumen" },
+                { left: "Develop", right: "Aplikasi prototipe siap pakai yang telah direvisi ahli media" },
+                { left: "Implement", right: "Jurnal pelaksanaan kelas serta pelatihan guru pengguna" }
+              ],
+              hint: "Storyboard dibuat saat merancang (Design), sedangkan aplikasi jadi dihasilkan saat memproduksi (Develop).",
+              explanation: "Setiap tahap ADDIE menghasilkan deliverable spesifik yang menjadi masukan bagi tahap berikutnya."
+            },
+            {
+              id: "l3_q3",
+              type: "mcq",
+              scenario: "Di SMAN 1 Maospati, nilai ujian mata pelajaran Informatika turun drastis. Seorang anggota tim langsung mengusulkan membuat game 3D tanpa mencari tahu penyebab turunnya nilai.",
+              prompt: "Sebagai Desainer Pembelajaran, mengapa kamu harus mencegah tim melompat langsung ke pembuatan game dan meminta mereka melakukan tahap Analyze terlebih dahulu?",
+              options: [
+                "Agar solusi yang dibuat benar-benar menjawab akar masalah (apakah karena materi, metode, atau fasilitas) dan sesuai kondisi siswa.",
+                "Agar waktu proyek habis hanya untuk rapat tanpa menghasilkan produk apa pun.",
+                "Karena tahap Analyze hanya bertujuan mencari kesalahan pribadi guru untuk dilaporkan.",
+                "Karena di dalam model ADDIE, tahap pembuatan media tidak boleh menggunakan komputer."
+              ],
+              answer: "Agar solusi yang dibuat benar-benar menjawab akar masalah (apakah karena materi, metode, atau fasilitas) dan sesuai kondisi siswa.",
+              hint: "Tanpa diagnosis masalah yang tepat, solusi secanggih apa pun bisa salah sasaran.",
+              explanation: "Analisis kebutuhan (Need Assessment) memastikan intervensi pembelajaran tepat guna dan tidak memboroskan sumber daya."
+            },
+            {
+              id: "l3_q4",
+              type: "order",
+              scenario: "Di dalam tahap Analyze sendiri, terdapat urutan kerja mikro yang logis saat menganalisis masalah di SMAN 1 Maospati.",
+              prompt: "Susun 4 langkah kerja tahap Analisis berikut dari langkah pertama hingga keempat!",
+              correctOrder: [
+                "Mengidentifikasi kesenjangan antara capaian saat ini dan capaian ideal",
+                "Memeriksa karakteristik awal, minat, dan pengetahuan prasyarat siswa",
+                "Menganalisis ketersediaan sumber daya, waktu, dan fasilitas sekolah",
+                "Merumuskan prioritas kebutuhan pembelajaran yang harus segera diselesaikan"
+              ],
+              hint: "Mulai dari melihat masalah (kesenjangan), kenali siapa siswanya, cek fasilitas pendukungnya, lalu simpulkan prioritas kebutuhannya.",
+              explanation: "Analisis yang komprehensif memadukan analisis kinerja, analisis pebelajar, dan analisis lingkungan sebelum menetapkan prioritas."
+            },
+            {
+              id: "l3_q5",
+              type: "mcq",
+              scenario: "Saat berada di tahap Develop, kamu meminta seorang dosen ahli materi dan seorang ahli media pembelajaran untuk menilai kelayakan prototipe web sebelum dibawa ke SMAN 1 Maospati.",
+              prompt: "Kegiatan validasi ahli (expert review) dan uji coba perorangan (one-to-one trying out) ini bertujuan untuk...",
+              options: [
+                "Menemukan kelemahan konten maupun teknis sedini mungkin agar dapat direvisi sebelum diimplementasikan ke kelas besar.",
+                "Memberikan nilai rapor akhir semester kepada seluruh siswa kelas 12.",
+                "Menggantikan tahap analisis kebutuhan di awal proyek.",
+                "Menghapus keharusan uji coba pada siswa sama sekali."
+              ],
+              answer: "Menemukan kelemahan konten maupun teknis sedini mungkin agar dapat direvisi sebelum diimplementasikan ke kelas besar.",
+              hint: "Validasi di tahap pengembangan adalah bagian dari kendali mutu formatif sebelum produk dipakai massal.",
+              explanation: "Validasi ahli dan uji coba skala kecil pada tahap Develop memastikan produk bebas dari miskonsepsi materi dan kendala antarmuka."
+            },
+            {
+              id: "l3_q6",
+              type: "mcq",
+              scenario: "Setelah program berjalan satu semester di SMAN 1 Maospati, kepala sekolah meminta laporan apakah program ini layak dilanjutkan tahun depan berdasarkan dampak peningkatan hasil belajar siswa.",
+              prompt: "Berdasarkan model evaluasi Kirkpatrick, pengukuran peningkatan pengetahuan dan keterampilan siswa melalui perbandingan Pre-test dan Post-test berada pada...",
+              options: [
+                "Level 2: Learning (Belajar)",
+                "Level 1: Reaction (Kepuasan sesaat)",
+                "Level 3: Behavior (Perubahan perilaku jangka panjang di masyarakat)",
+                "Level 4: Results (Keuntungan finansial perusahaan)"
+              ],
+              answer: "Level 2: Learning (Belajar)",
+              hint: "Level 1 = Reaksi/Kepuasan; Level 2 = Belajar (pengetahuan/sikap/keterampilan); Level 3 = Perilaku; Level 4 = Hasil/Dampak.",
+              explanation: "Pada evaluasi Kirkpatrick, Level 2 (Learning) mengukur sejauh mana peserta mengalami peningkatan pengetahuan, keterampilan, atau sikap."
+            }
+          ]
+        },
+
+        // ====================================================================
+        // LEVEL 4: MEDIA PEMBELAJARAN & SIMULASI ANGGARAN (6 SOAL)
+        // ====================================================================
+        {
+          levelNumber: 4,
+          title: "Level 4: Pemilihan & Klasifikasi Media Pembelajaran",
+          schoolName: "SMKN 1 Panekan (Kabupaten Magetan)",
+          story: "SMKN 1 Panekan ingin mengoptimalkan pemilihan media pembelajaran kejuruan dan umum. Setiap jurusan memiliki karakteristik siswa, tujuan belajar, batasan anggaran, serta kondisi fasilitas yang berbeda-beda!",
+          objective: "Mahasiswa mampu mengklasifikasikan media pembelajaran serta menyimulasikan pemilihan media paling efektif berdasarkan tujuan belajar, karakteristik siswa, anggaran, dan fasilitas (prinsip ACTION/ASSURE).",
+          badge: {
+            id: "badge_lvl4",
+            icon: "🎬",
+            name: "Kurator Media Jitu",
+            desc: "Cermat memilih media tepat guna sesuai anggaran dan tujuan belajar."
+          },
+          questions: [
+            {
+              id: "l4_q1",
+              type: "mcq",
+              scenario: "SIMULASI ANGGARAN #1 — Jurusan Teknik Jaringan: Tujuan belajar adalah melatih siswa merancang topologi jaringan. Anggaran tersedia: Rp150.000. Fasilitas: 1 Lab Komputer tanpa internet stabil, semua siswa punya HP Android.",
+              prompt: "Manakah keputusan pemilihan media paling optimal yang tidak melampaui anggaran dan sesuai fasilitas?",
+              options: [
+                "Aplikasi web simulasi topologi jaringan berbasis HTML5 satu file offline (Biaya Rp0 - dapat dijalankan di PC lab & HP siswa tanpa internet)",
+                "Langganan simulator cloud berbayar Rp2.500.000/bulan yang wajib terkoneksi internet berkecepatan tinggi",
+                "Membeli 30 unit router fisik Cisco baru seharga Rp45.000.000",
+                "Mencetak buku teks hitam-putih tanpa ilustrasi seharga Rp140.000 untuk dibaca bergantian"
+              ],
+              answer: "Aplikasi web simulasi topologi jaringan berbasis HTML5 satu file offline (Biaya Rp0 - dapat dijalankan di PC lab & HP siswa tanpa internet)",
+              hint: "Cek kesesuaian 3 syarat: tujuan praktik merancang topologi, anggaran maksimal Rp150.000, dan kendala tanpa internet.",
+              explanation: "Prinsip pemilihan media (ACTION: Access, Cost, Technology, Interactivity, Organization, Novelty) menuntut solusi yang terjangkau, aksesibel secara offline, dan interaktif."
+            },
+            {
+              id: "l4_q2",
+              type: "mcq",
+              scenario: "Mengacu pada Kerucut Pengalaman (Cone of Experience) dari Edgar Dale, guru ingin memilih pengalaman belajar yang memberikan keterlibatan paling konkret bagi siswa SMK.",
+              prompt: "Di antara empat pilihan aktivitas berikut, manakah yang paling konkret (berada paling dekat dengan dasar Kerucut Pengalaman Edgar Dale)?",
+              options: [
+                "Melakukan praktik simulasi kerja nyata dan pengalaman langsung terarah di bengkel/laboratorium",
+                "Membaca teks definisi alat di papan tulis",
+                "Mendengarkan rekaman ceramah audio satu arah",
+                "Melihat bagan organisasi hitam putih di buku"
+              ],
+              answer: "Melakukan praktik simulasi kerja nyata dan pengalaman langsung terarah di bengkel/laboratorium",
+              hint: "Dasar kerucut Edgar Dale adalah Direct Purposeful Experiences & Contrived Experiences (simulasi/praktik), sedangkan puncaknya adalah simbol verbal.",
+              explanation: "Dalam Kerucut Pengalaman Edgar Dale, semakin terlibat indera dan tindakan siswa secara aktif (pengalaman langsung & simulasi), semakin konkret pengalaman belajarnya."
+            },
+            {
+              id: "l4_q3",
+              type: "match",
+              scenario: "Bantu pustakawan SMKN 1 Panekan mengklasifikasikan koleksi media pembelajaran sekolah berdasarkan taksonomi modalitas indera dan teknologinya!",
+              prompt: "Klik kategori klasifikasi media di kiri, lalu klik contoh medianya di kanan.",
+              pairs: [
+                { left: "Media Visual Non-Proyeksi", right: "Infografis cetak, poster anatomi mesin, dan papan flanel" },
+                { left: "Media Audio Murni", right: "Siniar (podcast) latihan menyimak bahasa asing dan radio edukasi" },
+                { left: "Media Audiovisual Gerak", right: "Video tutorial demonstrasi prosedur keselamatan kerja (K3)" },
+                { left: "Multimedia Interaktif", right: "Game edukasi berbasis web dengan umpan balik bercabang" }
+              ],
+              hint: "Perhatikan indera yang dilibatkan (mata/telinga) dan apakah pengguna bisa berinteraksi mengendalikan alur (interaktif).",
+              explanation: "Klasifikasi media membantu desainer menyesuaikan modalitas stimulus (visual, auditif, kinestetik/interaktif) dengan karakteristik materi."
+            },
+            {
+              id: "l4_q4",
+              type: "mcq",
+              scenario: "SIMULASI ANGGARAN #2 — Kelas Kewirausahaan (32 siswa): Guru ingin siswa memahami alur negosiasi pelanggan. Anggaran: Rp0. Waktu persiapan: 2 hari. Fasilitas: Ruang kelas biasa dengan 1 proyektor.",
+              prompt: "Kombinasi media dan metode manakah yang paling realistis sekaligus efektif mencapai tujuan afektif-interpersonal tersebut?",
+              options: [
+                "Tayangan video pendek studi kasus negosiasi di proyektor, dilanjutkan simulasi bermain peran (role-play) berpasangan menggunakan kartu skenario",
+                "Memesan pembuatan film layar lebar profesional ke studio produksi Jakarta",
+                "Menugaskan siswa menyalin isi kamus istilah ekonomi sebanyak 50 halaman",
+                "Membatalkan pelajaran karena anggaran sekolah sedang Rp0"
+              ],
+              answer: "Tayangan video pendek studi kasus negosiasi di proyektor, dilanjutkan simulasi bermain peran (role-play) berpasangan menggunakan kartu skenario",
+              hint: "Keterampilan negosiasi butuh pemodelan perilaku (video) dan latihan interpersonal langsung (role-play) yang hemat biaya.",
+              explanation: "Desainer pembelajaran kreatif mampu mengombinasikan media proyeksi yang tersedia dengan aktivitas bermain peran tanpa biaya tambahan."
+            },
+            {
+              id: "l4_q5",
+              type: "order",
+              scenario: "Guru SMKN 1 Panekan ingin menggunakan model ASSURE (Smaldino dkk.) saat mengintegrasikan media pembelajaran di kelas.",
+              prompt: "Susun 6 langkah model ASSURE berikut sesuai urutan akronim A - S - S - U - R - E yang benar!",
+              correctOrder: [
+                "Analyze Learners (Analisis karakteristik siswa)",
+                "State Standards and Objectives (Rumuskan tujuan pembelajaran)",
+                "Select Strategies, Technology, Media, and Materials (Pilih strategi dan media)",
+                "Utilize Technology, Media, and Materials (Gunakan media dengan prinsip 5P)",
+                "Require Learner Participation (Libatkan partisipasi aktif siswa)",
+                "Evaluate and Revise (Evaluasi dan revisi pelaksanaan pembelajaran)"
+              ],
+              hint: "Cocokkan huruf depannya: A (Analyze) - S (State) - S (Select) - U (Utilize) - R (Require) - E (Evaluate).",
+              explanation: "Model ASSURE dirancang khusus sebagai panduan praktis bagi pendidik untuk merencanakan dan memanfaatkan media di kelas secara sistematis."
+            },
+            {
+              id: "l4_q6",
+              type: "mcq",
+              scenario: "Seorang pengembang menambahkan musik latar disko bervolume keras dan 15 animasi berkedip yang tidak ada hubungannya dengan materi pada slide presentasi matematika.",
+              prompt: "Menurut Teori Kognitif Pembelajaran Multimedia (Richard E. Mayer), kesalahan desain tersebut melanggar...",
+              options: [
+                "Prinsip Koherensi (Coherence Principle) — karena elemen visual dan suara tambahan yang tidak relevan justru mengganggu fokus dan membebani memori kerja siswa.",
+                "Prinsip Monoton — karena slide pembelajaran wajib memiliki minimal 20 lagu latar.",
+                "Prinsip Kedekatan Waktu — karena musik disko mempercepat perhitungan kalkulus.",
+                "Prinsip Personalisasi — karena animasi berkedip menggantikan kehadiran guru."
+              ],
+              answer: "Prinsip Koherensi (Coherence Principle) — karena elemen visual dan suara tambahan yang tidak relevan justru mengganggu fokus dan membebani memori kerja siswa.",
+              hint: "Mayer menyebutkan bahwa manusia belajar lebih baik ketika materi ekstra yang tidak relevan (seductive details) disingkirkan.",
+              explanation: "Prinsip Koherensi Mayer menegaskan bahwa kata-kata, gambar, atau suara yang tidak mendukung tujuan pembelajaran harus dieliminasi."
+            }
+          ]
+        },
+
+        // ====================================================================
+        // LEVEL 5: EVALUASI & INOVASI AI (BOSS LEVEL - 6 SOAL CAMPURAN)
+        // ====================================================================
+        {
+          levelNumber: 5,
+          title: "Level 5 (Boss Level): Evaluasi & Inovasi Berbantuan AI",
+          schoolName: "Pusat Inovasi Pendidikan Kabupaten Magetan",
+          story: "Selamat! Kamu kini menghadapi Boss Level di Pusat Inovasi Pendidikan Magetan. Tantangan di sini menggabungkan penyusunan indikator evaluasi, ketepatan instrumen, integrasi lintas kawasan, serta etika pemanfaatan AI dalam pendidikan!",
+          objective: "Mahasiswa mampu menyusun indikator pembelajaran berkaidah ABCD, memilih instrumen evaluasi yang valid, menerapkan etika AI dalam desain pembelajaran, serta mengintegrasikan seluruh konsep TP.",
+          badge: {
+            id: "badge_lvl5",
+            icon: "👑",
+            name: "Inovator Edukasi Beretika",
+            desc: "Menuntaskan Boss Level dengan penguasaan evaluasi dan inovasi AI yang bertanggung jawab."
+          },
+          questions: [
+            {
+              id: "l5_q1",
+              type: "match",
+              scenario: "BOSS TANTANGAN 1: Bedah rumusan tujuan pembelajaran berkaidah ABCD berikut ini dengan memasangkan setiap komponen dengan penggalan kalimat yang tepat!",
+              prompt: "Pasangkan komponen A, B, C, dan D di kiri dengan penggalan kalimat tujuan di kanan.",
+              pairs: [
+                { left: "Audience (Sasaran)", right: "Mahasiswa semester 1 S1 Teknologi Pendidikan" },
+                { left: "Behavior (Perilaku)", right: "mampu merancang draf alur cerita game edukasi" },
+                { left: "Condition (Kondisi)", right: "Setelah menganalisis studi kasus sekolah lokal" },
+                { left: "Degree (Derajat)", right: "dengan memenuhi minimal 4 dari 5 kriteria rubrik penilaian" }
+              ],
+              hint: "Siapa yang belajar (A), apa kata kerja operasionalnya (B), dalam situasi/syarat apa (C), dan seberapa baik targetnya (D).",
+              explanation: "Kaidah ABCD memastikan tujuan pembelajaran terukur secara jelas sehingga mudah dibuatkan instrumen evaluasinya."
+            },
+            {
+              id: "l5_q2",
+              type: "mcq",
+              scenario: "BOSS TANTANGAN 2: Indikator pembelajaran berbunyi: 'Mahasiswa mampu mengevaluasi kelebihan dan kelemahan pemilihan media di sekolah berdasarkan kriteria ACTION.' (Taksonomi Bloom Revisi: C5 - Mengevaluasi).",
+              prompt: "Instrumen evaluasi manakah yang paling valid (sahih) untuk mengukur pencapaian indikator level C5 tersebut?",
+              options: [
+                "Soal studi kasus analitis yang meminta mahasiswa menilai ketepatan media suatu sekolah disertai argumen berbasis kriteria ACTION",
+                "Soal menjodohkan nama tokoh dengan tahun kelahirannya (C1 - Mengingat)",
+                "Daftar hadir kedatangan mahasiswa di kelas selama satu semester",
+                "Survei kepuasan terhadap warna seragam kampus"
+              ],
+              answer: "Soal studi kasus analitis yang meminta mahasiswa menilai ketepatan media suatu sekolah disertai argumen berbasis kriteria ACTION",
+              hint: "Instrumen yang valid harus mengukur tepat pada tingkat kognitif yang dituntut indikator (C5 = menilai/mengkritisi berdasarkan kriteria).",
+              explanation: "Validitas isi dan konstruk menuntut keselarasan (constructive alignment) antara level kognitif indikator dengan bentuk tagihan instrumen tes."
+            },
+            {
+              id: "l5_q3",
+              type: "mcq",
+              scenario: "BOSS TANTANGAN 3: Sebuah tim mahasiswa TP menggunakan AI generatif untuk membantu membuat prototipe proyek akhir mata kuliah.",
+              prompt: "Manakah alur kerja berbantuan AI yang paling mencerminkan kompetensi Desainer Pembelajaran profesional dan beretika?",
+              options: [
+                "Mahasiswa merumuskan masalah nyata & tujuan belajar lebih dulu, menyusun prompt terstruktur untuk dibantu AI membuat kode/konten, lalu menguji coba, memvalidasi materi, dan mencatat hasil evaluasi secara jujur",
+                "Mahasiswa menyerahkan seluruh penentuan masalah hingga kesimpulan kepada AI tanpa pernah membuka atau menguji kode programnya",
+                "Mahasiswa memasukkan data pribadi rahasia siswa sekolah ke AI publik tanpa izin dan tanpa sensor privasi",
+                "Mahasiswa menyalin mentah draf AI yang berisi referensi jurnal fiktif (halusinasi AI) tanpa mengecek kebenarannya"
+              ],
+              answer: "Mahasiswa merumuskan masalah nyata & tujuan belajar lebih dulu, menyusun prompt terstruktur untuk dibantu AI membuat kode/konten, lalu menguji coba, memvalidasi materi, dan mencatat hasil evaluasi secara jujur",
+              hint: "Desainer pembelajaran memegang kendali pedagogis (human-in-the-loop): AI membantu akselerasi teknis, manusia memvalidasi kebenaran dan etika.",
+              explanation: "Kolaborasi manusia-AI dalam Teknologi Pendidikan menempatkan mahasiswa sebagai perancang utama (instructional designer) dan pengendali mutu."
+            },
+            {
+              id: "l5_q4",
+              type: "order",
+              scenario: "BOSS TANTANGAN 4: Susun alur pengerjaan Proyek Akhir Berbantuan AI yang sistematis mulai dari langkah pertama hingga langkah kelima!",
+              prompt: "Urutkan 5 langkah pengerjaan proyek inovatif berbantuan AI berikut dari awal hingga akhir.",
+              correctOrder: [
+                "1. Identifikasi Masalah nyata pembelajaran di lingkungan sekitar",
+                "2. Rancang Solusi dengan menentukan ide, fitur utama, dan tujuan belajar",
+                "3. Gunakan Bantuan AI secara terarah untuk merancang kode, desain, atau konten",
+                "4. Buat Prototipe produk digital atau game edukasi yang dapat dijalankan",
+                "5. Uji dan Evaluasi fungsi prototipe, catat hasil uji, serta lakukan perbaikan"
+              ],
+              hint: "Mulai dari Identifikasi Masalah -> Rancang Solusi -> Gunakan Bantuan AI -> Buat Prototipe -> Uji & Evaluasi.",
+              explanation: "Lima langkah sistematis ini menjamin produk berbasis AI berangkat dari kebutuhan nyata dan teruji secara empiris."
+            },
+            {
+              id: "l5_q5",
+              type: "mcq",
+              scenario: "BOSS TANTANGAN 5 (Integrasi Lintas Materi): Sebuah game edukasi menampilkan tujuan belajar di awal (Gagné), memberikan tantangan bertahap (Vygotsky), menyediakan poin & lencana motivasi, serta membandingkan Pre-test dan Post-test.",
+              prompt: "Pemberian tantangan yang menarik perhatian (Attention), relevan dengan materi kuliah (Relevance), membangun percaya diri lewat petunjuk bertahap (Confidence), dan memberi kepuasan lencana (Satisfaction) merupakan penerapan model motivasi...",
+              options: [
+                "Model Motivasi ARCS dari John M. Keller",
+                "Model Taksonomi Psikomotorik Anita Harrow",
+                "Model Komunikasi Linier Shannon & Weaver",
+                "Model Administrasi Keuangan Sekolah"
+              ],
+              answer: "Model Motivasi ARCS dari John M. Keller",
+              hint: "Perhatikan singkatan dari Attention, Relevance, Confidence, dan Satisfaction.",
+              explanation: "Model ARCS (John M. Keller) adalah kerangka desain motivasi pembelajaran untuk menjaga keterlibatan pebelajar dari awal hingga akhir."
+            },
+            {
+              id: "l5_q6",
+              type: "mcq",
+              scenario: "BOSS TANTANGAN 6: Pada uji coba prototipe game edukasi, rata-rata skor Pre-test mahasiswa adalah 45 dan meningkat menjadi 88 pada Post-test, namun 2 responden melaporkan tombol terlalu kecil di layar ponsel.",
+              prompt: "Keputusan tindak lanjut (evaluasi formatif & iterasi) apa yang paling tepat diambil oleh tim pengembang?",
+              options: [
+                "Menyimpulkan bahwa materi game efektif meningkatkan pemahaman kognitif, sembari melakukan perbaikan ukuran tombol (minimal 44px) untuk meningkatkan ketergunaan (usability) di ponsel",
+                "Menghapus seluruh soal di dalam game karena sudah terbukti berhasil",
+                "Mengabaikan keluhan pengguna ponsel dan menyalahkan ukuran jari pemain",
+                "Mengubah nilai Pre-test di laporan agar terlihat sama dengan Post-test"
+              ],
+              answer: "Menyimpulkan bahwa materi game efektif meningkatkan pemahaman kognitif, sembari melakukan perbaikan ukuran tombol (minimal 44px) untuk meningkatkan ketergunaan (usability) di ponsel",
+              hint: "Evaluasi produk mencakup dua aspek: efektivitas pedagogis (peningkatan skor belajar) dan ketergunaan antarmuka (usability).",
+              explanation: "Pengujian prototipe yang baik memadukan bukti peningkatan hasil belajar dengan perbaikan ergonomi antarmuka berdasarkan temuan uji coba."
+            }
+          ]
+        }
+      ],
+
+      // Ringkasan Materi Buku Saku untuk Menu Bantuan
+      studyGuide: [
+        {
+          title: "1. Dasar & 5 Kawasan Teknologi Pendidikan",
+          content: "Menurut AECT (1994), Teknologi Pendidikan adalah teori dan praktik dalam desain, pengembangan, pemanfaatan, pengelolaan, serta evaluasi proses dan sumber untuk belajar. Pada definisi AECT (2004/2008), fokus utamanya adalah studi dan praktik etis untuk memfasilitasi pembelajaran dan meningkatkan kinerja. Lima kawasan utamanya: (1) Desain (sistem pembelajaran, pesan, strategi, karakteristik pebelajar), (2) Pengembangan (cetak, audiovisual, komputer, terpadu), (3) Pemanfaatan (pemakaian media, difusi inovasi, implementasi & institusionalisasi, regulasi), (4) Pengelolaan (proyek, sumber, sistem penyampaian, informasi), dan (5) Evaluasi (analisis masalah, pengukuran acuan patokan, formatif, sumatif)."
+        },
+        {
+          title: "2. Teori Belajar Utama",
+          content: "• Behavioristik (Skinner, Pavlov, Thorndike): Belajar adalah perubahan perilaku teramati melalui stimulus-respons dan penguatan (reinforcement). Cocok untuk latihan kebiasaan dan drill.\n• Kognitivisme (Piaget, Bruner, Gagné, Sweller): Fokus pada proses mental internal, skema (asimilasi & akomodasi), 3 tahap representasi Bruner (Enaktif-benda nyata, Ikonik-visual, Simbolik-abstrak), 9 Peristiwa Pembelajaran Gagné, serta pengelolaan beban memori kerja.\n• Konstruktivistik (Vygotsky): Pebelajar membangun makna secara aktif. Vygotsky menekankan interaksi sosial, Zone of Proximal Development (ZPD), dan bantuan bertahap (scaffolding)."
+        },
+        {
+          title: "3. Model Desain Pembelajaran ADDIE",
+          content: "ADDIE terdiri atas 5 tahap sistematis:\n1. Analyze: Mengidentifikasi masalah kesenjangan kinerja, kebutuhan belajar, karakteristik siswa, dan daya dukung lingkungan.\n2. Design: Merumuskan tujuan berkaidah ABCD, menyusun instrumen evaluasi, memilih strategi, dan membuat storyboard.\n3. Develop: Memproduksi bahan ajar/prototipe media, melakukan validasi ahli (expert review), dan revisi uji coba kecil.\n4. Implement: Menerapkan produk dalam situasi pembelajaran nyata beserta persiapan guru/siswa.\n5. Evaluate: Menilai kualitas dan dampak pembelajaran secara formatif (perbaikan proses) maupun sumatif (keberhasilan akhir)."
+        },
+        {
+          title: "4. Klasifikasi & Pemilihan Media Pembelajaran",
+          content: "• Kerucut Pengalaman Edgar Dale mengurutkan pengalaman belajar dari yang paling konkret (pengalaman langsung dan simulasi) hingga paling abstrak (lambang kata/simbol verbal).\n• Prinsip Pemilihan Media (ACTION - Bates): Access (ketersediaan akses), Cost (anggaran biaya), Technology (kemudahan teknis), Interactivity (interaktivitas), Organization (dukungan sekolah), Novelty (kebaruan).\n• Model ASSURE: Analyze learners, State objectives, Select strategies/media, Utilize media, Require learner participation, Evaluate and revise.\n• Prinsip Koherensi Multimedia (Mayer): Hindari elemen gambar/suara dekoratif yang tidak relevan karena membebani memori kerja."
+        },
+        {
+          title: "5. Evaluasi Pembelajaran & Etika AI",
+          content: "• Rumus Tujuan/Indikator ABCD: Audience (siapa pebelajarnya), Behavior (perilaku/kata kerja operasional terukur), Condition (kondisi/syarat), Degree (kriteria keberhasilan minimal).\n• Instrumen evaluasi yang valid harus selaras dengan tingkat kognitif indikator (misal C4/C5 diuji dengan analisis kasus, bukan hafalan C1).\n• Model Motivasi ARCS (Keller): Attention (perhatian), Relevance (relevansi), Confidence (percaya diri), Satisfaction (kepuasan).\n• Etika Pemanfaatan AI: Gunakan AI sebagai mitra bantu pikir dan akselerator pembuatan prototipe, namun validasi akurasi materi, jaga privasi data, dan lakukan pengujian lapangan secara jujur."
+        }
+      ]
+    };
+
+    /* ==========================================================================
+       BAGIAN 2: SISTEM EFEK SUARA SINTESIS (WEB AUDIO API TANPA FILE EKSTERNAL)
+       ========================================================================== */
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.muted = false;
+      }
+
+      initContext() {
+        if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === "suspended") {
+          this.ctx.resume();
+        }
+      }
+
+      playTone(freq, type, duration, delay = 0, gainVal = 0.12) {
+        if (this.muted) return;
+        try {
+          this.initContext();
+          if (!this.ctx) return;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const startTime = this.ctx.currentTime + delay;
+
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, startTime);
+
+          gain.gain.setValueAtTime(gainVal, startTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc.start(startTime);
+          osc.stop(startTime + duration);
+        } catch (err) {
+          // Abaikan jika browser memblokir autoplay audio
+        }
+      }
+
+      click() {
+        this.playTone(520, "sine", 0.07, 0, 0.08);
+      }
+
+      correct() {
+        this.playTone(523.25, "triangle", 0.12, 0, 0.14);
+        this.playTone(659.25, "triangle", 0.12, 0.1, 0.14);
+        this.playTone(783.99, "triangle", 0.22, 0.2, 0.16);
+      }
+
+      wrong() {
+        this.playTone(240, "sawtooth", 0.16, 0, 0.12);
+        this.playTone(180, "sawtooth", 0.24, 0.14, 0.12);
+      }
+
+      levelUp() {
+        const notes = [523.25, 659.25, 783.99, 1046.5];
+        notes.forEach((n, idx) => this.playTone(n, "triangle", 0.18, idx * 0.09, 0.15));
+      }
+    }
+
+    const sound = new SoundEngine();
+
+    /* ==========================================================================
+       BAGIAN 3: PENYIMPANAN SKOR LOKAL (TRY/CATCH LOCALSTORAGE + FALLBACK MEMORI)
+       ========================================================================== */
+    const STORAGE_KEY = "misi_desainer_pembelajaran_leaderboard_v1";
+    let memoryLeaderboard = [];
+
+    function loadLeaderboard() {
+      try {
+        const raw = window.localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            memoryLeaderboard = parsed;
+            return parsed;
+          }
+        }
+      } catch (e) {
+        // Fallback otomatis ke variabel memori jika localStorage tidak tersedia
+      }
+      return memoryLeaderboard;
+    }
+
+    function saveScoreToLeaderboard(entry) {
+      const list = loadLeaderboard();
+      list.push(entry);
+      list.sort((a, b) => b.score - a.score);
+      const top10 = list.slice(0, 10);
+      memoryLeaderboard = top10;
+      try {
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(top10));
+      } catch (e) {
+        // Tetap tersimpan di memoryLeaderboard
+      }
+    }
+
+    /* ==========================================================================
+       BAGIAN 4: STATE PERMAINAN & FUNGSI UTILITAS PENGACAKAN
+       ========================================================================== */
+    const gameState = {
+      playerName: "Mahasiswa TP",
+      timerSecondsCfg: 0,
+      phase: "start", // "pretest" | "level" | "posttest" | "result"
+      currentLevelIdx: 0,
+      currentQuestionIdx: 0,
+      activeQuestions: [],
+      lives: 3,
+      score: 0,
+      combo: 0,
+      questionAttempt: 0, // 0 = percobaan pertama, 1+ = sudah pernah salah di soal ini
+      timerInterval: null,
+      timeLeft: 0,
+      preTestCorrect: 0,
+      postTestCorrect: 0,
+      levelStats: [
+        { correctFirstTry: 0, completed: 0, total: 6 },
+        { correctFirstTry: 0, completed: 0, total: 6 },
+        { correctFirstTry: 0, completed: 0, total: 6 },
+        { correctFirstTry: 0, completed: 0, total: 6 },
+        { correctFirstTry: 0, completed: 0, total: 6 }
+      ],
+      unlockedBadges: [],
+      reflections: [],
+      // State sementara interaksi soal
+      tempSelectedOption: null,
+      tempMatchLeft: null,
+      tempMatchedCount: 0,
+      tempOrderList: []
+    };
+
+    // Fungsi pengacak array Fisher-Yates
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function showScreen(screenId) {
+      const screens = ["screenStart", "screenBriefing", "screenQuiz", "screenLevelComplete", "screenResult"];
+      screens.forEach(id => {
+        const el = document.getElementById(id);
+        if (id === screenId) {
+          el.classList.remove("hidden");
+        } else {
+          el.classList.add("hidden");
+        }
+      });
+
+      const hud = document.getElementById("hudBar");
+      if (screenId === "screenStart" || screenId === "screenResult") {
+        hud.classList.add("hidden");
+      } else {
+        hud.classList.remove("hidden");
+      }
+    }
+
+    function updateHUD() {
+      document.getElementById("hudNama").textContent = gameState.playerName;
+      document.getElementById("hudNyawa").textContent =
+        gameState.lives > 0 ? "❤️".repeat(gameState.lives) + "🖤".repeat(3 - gameState.lives) : "💔 0";
+      document.getElementById("hudSkor").textContent = gameState.score;
+      const mult = Math.min(1 + Math.floor(gameState.combo / 2), 4);
+      document.getElementById("hudKombo").textContent = `🔥 x${mult} (${gameState.combo} beruntun)`;
+      document.getElementById("hudTimer").textContent =
+        gameState.timerSecondsCfg > 0 ? `⏱️ ${gameState.timeLeft}d` : "∞ Santai";
+    }
+
+    function stopQuestionTimer() {
+      if (gameState.timerInterval) {
+        clearInterval(gameState.timerInterval);
+        gameState.timerInterval = null;
+      }
+    }
+
+    function startQuestionTimer() {
+      stopQuestionTimer();
+      if (gameState.timerSecondsCfg <= 0) {
+        updateHUD();
+        return;
+      }
+      gameState.timeLeft = gameState.timerSecondsCfg;
+      updateHUD();
+      gameState.timerInterval = setInterval(() => {
+        gameState.timeLeft--;
+        updateHUD();
+        if (gameState.timeLeft <= 0) {
+          stopQuestionTimer();
+          handleTimeOut();
+        }
+      }, 1000);
+    }
+
+    function triggerConfetti() {
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return;
+      }
+      const colors = ["#4f46e5", "#7c3aed", "#f59e0b", "#10b981", "#ec4899"];
+      for (let i = 0; i < 28; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti-piece";
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.backgroundColor = colors[i % colors.length];
+        piece.style.animationDuration = (1.6 + Math.random() * 1.2) + "s";
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 3000);
+      }
+    }
+
+    /* ==========================================================================
+       BAGIAN 5: LOGIKA ALUR PERMAINAN (PRE-TEST -> 5 LEVEL -> POST-TEST -> HASIL)
+       ========================================================================== */
+    function startNewGame() {
+      sound.click();
+      const rawName = document.getElementById("inputNamaPemain").value.trim();
+      gameState.playerName = rawName ? rawName : "Desainer Muda TP";
+      gameState.timerSecondsCfg = parseInt(document.getElementById("selectModeTimer").value, 10) || 0;
+
+      gameState.lives = 3;
+      gameState.score = 0;
+      gameState.combo = 0;
+      gameState.currentLevelIdx = 0;
+      gameState.preTestCorrect = 0;
+      gameState.postTestCorrect = 0;
+      gameState.unlockedBadges = [];
+      gameState.reflections = [];
+      gameState.levelStats = BANK_DATA_GAME.levels.map(lvl => ({
+        correctFirstTry: 0,
+        completed: 0,
+        total: lvl.questions.length
+      }));
+
+      // Mulai dari Pre-Test (5 soal diacak)
+      gameState.phase = "pretest";
+      gameState.activeQuestions = shuffleArray(BANK_DATA_GAME.preTest);
+      gameState.currentQuestionIdx = 0;
+      updateHUD();
+      showScreen("screenQuiz");
+      renderCurrentQuestion();
+    }
+
+    function showLevelBriefing(levelIdx) {
+      stopQuestionTimer();
+      gameState.phase = "level";
+      gameState.currentLevelIdx = levelIdx;
+      const lvl = BANK_DATA_GAME.levels[levelIdx];
+
+      document.getElementById("briefBadge").textContent = `🏫 Lokasi Kasus: ${lvl.schoolName}`;
+      document.getElementById("briefTitle").textContent = lvl.title;
+      document.getElementById("briefStory").textContent = lvl.story;
+      document.getElementById("briefObjective").textContent = lvl.objective;
+
+      updateHUD();
+      showScreen("screenBriefing");
+    }
+
+    function startActiveLevel() {
+      sound.click();
+      const lvl = BANK_DATA_GAME.levels[gameState.currentLevelIdx];
+      gameState.activeQuestions = shuffleArray(lvl.questions);
+      gameState.currentQuestionIdx = 0;
+      showScreen("screenQuiz");
+      renderCurrentQuestion();
+    }
+
+    function startPostTest() {
+      sound.click();
+      gameState.phase = "posttest";
+      gameState.activeQuestions = shuffleArray(BANK_DATA_GAME.postTest);
+      gameState.currentQuestionIdx = 0;
+      showScreen("screenQuiz");
+      renderCurrentQuestion();
+    }
+
+    /* ==========================================================================
+       BAGIAN 6: PERENDER SOAL DINAMIS (MCQ, MATCHING, ORDER DRAG-AND-DROP)
+       ========================================================================== */
+    function renderCurrentQuestion() {
+      const q = gameState.activeQuestions[gameState.currentQuestionIdx];
+      const totalQ = gameState.activeQuestions.length;
+      gameState.questionAttempt = 0;
+      gameState.tempSelectedOption = null;
+      gameState.tempMatchLeft = null;
+      gameState.tempMatchedCount = 0;
+
+      // Label tahap
+      const badgeEl = document.getElementById("quizPhaseBadge");
+      if (gameState.phase === "pretest") {
+        badgeEl.textContent = "📋 Pre-Test Awal (Ukur Kemampuan Awal)";
+      } else if (gameState.phase === "posttest") {
+        badgeEl.textContent = "🏁 Post-Test Akhir (Evaluasi Peningkatan)";
+      } else {
+        const lvl = BANK_DATA_GAME.levels[gameState.currentLevelIdx];
+        badgeEl.textContent = `🏫 ${lvl.schoolName} — Level ${lvl.levelNumber}`;
+      }
+
+      document.getElementById("quizCounter").textContent = `Tantangan ${gameState.currentQuestionIdx + 1} dari ${totalQ}`;
+      const pct = Math.round(((gameState.currentQuestionIdx) / totalQ) * 100);
+      document.getElementById("quizProgressFill").style.width = `${pct}%`;
+
+      document.getElementById("quizScenario").textContent = q.scenario;
+      document.getElementById("quizPrompt").textContent = q.prompt;
+
+      // Sembunyikan kotak feedback & tombol aksi bawaan
+      document.getElementById("quizFeedback").classList.add("hidden");
+      const actionRow = document.getElementById("quizActionRow");
+      const area = document.getElementById("quizInteractionArea");
+      area.innerHTML = "";
+
+      if (q.type === "mcq") {
+        actionRow.classList.add("hidden");
+        renderMCQ(q, area);
+      } else if (q.type === "match") {
+        actionRow.classList.add("hidden");
+        renderMatching(q, area);
+      } else if (q.type === "order") {
+        actionRow.classList.remove("hidden");
+        renderOrdering(q, area);
+      }
+
+      startQuestionTimer();
+    }
+
+    // 6A. Render Pilihan Ganda / Studi Kasus
+    function renderMCQ(q, container) {
+      const grid = document.createElement("div");
+      grid.className = "options-grid";
+      const shuffledOptions = shuffleArray(q.options);
+
+      shuffledOptions.forEach((optText, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn option-btn";
+        const letter = String.fromCharCode(65 + idx);
+        btn.innerHTML = `<strong>${letter}.</strong> <span>${optText}</span>`;
+        btn.addEventListener("click", () => {
+          sound.click();
+          evaluateMCQ(optText === q.answer, q, btn, grid);
+        });
+        grid.appendChild(btn);
+      });
+      container.appendChild(grid);
+    }
+
+    // 6B. Render Mencocokkan Pasangan (Matching)
+    function renderMatching(q, container) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "match-container";
+
+      const leftCol = document.createElement("div");
+      leftCol.className = "match-col";
+      const rightCol = document.createElement("div");
+      rightCol.className = "match-col";
+
+      const leftItems = shuffleArray(q.pairs.map((p, idx) => ({ id: idx, text: p.left })));
+      const rightItems = shuffleArray(q.pairs.map((p, idx) => ({ id: idx, text: p.right })));
+
+      leftItems.forEach(item => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "match-item";
+        btn.dataset.pairId = item.id;
+        btn.innerHTML = `<span>🔹 ${item.text}</span>`;
+        btn.addEventListener("click", () => {
+          if (btn.classList.contains("paired")) return;
+          sound.click();
+          leftCol.querySelectorAll(".match-item").forEach(el => el.classList.remove("active-pick"));
+          btn.classList.add("active-pick");
+          gameState.tempMatchLeft = btn;
+        });
+        leftCol.appendChild(btn);
+      });
+
+      rightItems.forEach(item => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "match-item";
+        btn.dataset.pairId = item.id;
+        btn.innerHTML = `<span>${item.text}</span>`;
+        btn.addEventListener("click", () => {
+          if (btn.classList.contains("paired")) return;
+          if (!gameState.tempMatchLeft) {
+            showFeedback(false, "Pilih salah satu konsep di kolom kiri terlebih dahulu sebelum memilih pasangannya di kanan!", false);
+            return;
+          }
+          const pickedLeft = gameState.tempMatchLeft;
+          if (pickedLeft.dataset.pairId === btn.dataset.pairId) {
+            sound.correct();
+            pickedLeft.classList.remove("active-pick");
+            pickedLeft.classList.add("paired");
+            btn.classList.add("paired");
+            pickedLeft.disabled = true;
+            btn.disabled = true;
+            gameState.tempMatchLeft = null;
+            gameState.tempMatchedCount++;
+
+            if (gameState.tempMatchedCount === q.pairs.length) {
+              handleCorrectAnswer(q);
+            }
+          } else {
+            pickedLeft.classList.remove("active-pick");
+            gameState.tempMatchLeft = null;
+            handleWrongAttempt(q, "Pasangan istilah dan definisi yang kamu pilih belum tepat.");
+          }
+        });
+        rightCol.appendChild(btn);
+      });
+
+      wrapper.appendChild(leftCol);
+      wrapper.appendChild(rightCol);
+      container.appendChild(wrapper);
+    }
+
+    // 6C. Render Menyusun Urutan (HTML5 Drag & Drop + Tombol Naik/Turun Sentuh)
+    function renderOrdering(q, container) {
+      // Pastikan urutan awal tidak sengaja sudah benar 100%
+      let initial = shuffleArray(q.correctOrder);
+      if (initial.every((val, i) => val === q.correctOrder[i])) {
+        initial.reverse();
+      }
+      gameState.tempOrderList = initial;
+
+      const listEl = document.createElement("div");
+      listEl.className = "sortable-list";
+      listEl.id = "activeSortableList";
+
+      function rebuildOrderDOM() {
+        listEl.innerHTML = "";
+        gameState.tempOrderList.forEach((text, index) => {
+          const item = document.createElement("div");
+          item.className = "sortable-item";
+          item.draggable = true;
+          item.dataset.index = index;
+
+          const labelSpan = document.createElement("span");
+          labelSpan.innerHTML = `<strong>#${index + 1}</strong> — ${text}`;
+
+          const ctrlDiv = document.createElement("div");
+          ctrlDiv.className = "order-controls";
+
+          const btnUp = document.createElement("button");
+          btnUp.type = "button";
+          btnUp.className = "btn btn-sm btn-outline";
+          btnUp.textContent = "⬆️";
+          btnUp.ariaLabel = "Geser naik";
+          btnUp.disabled = index === 0;
+          btnUp.addEventListener("click", () => {
+            sound.click();
+            const tmp = gameState.tempOrderList[index - 1];
+            gameState.tempOrderList[index - 1] = gameState.tempOrderList[index];
+            gameState.tempOrderList[index] = tmp;
+            rebuildOrderDOM();
+          });
+
+          const btnDown = document.createElement("button");
+          btnDown.type = "button";
+          btnDown.className = "btn btn-sm btn-outline";
+          btnDown.textContent = "⬇️";
+          btnDown.ariaLabel = "Geser turun";
+          btnDown.disabled = index === gameState.tempOrderList.length - 1;
+          btnDown.addEventListener("click", () => {
+            sound.click();
+            const tmp = gameState.tempOrderList[index + 1];
+            gameState.tempOrderList[index + 1] = gameState.tempOrderList[index];
+            gameState.tempOrderList[index] = tmp;
+            rebuildOrderDOM();
+          });
+
+          ctrlDiv.appendChild(btnUp);
+          ctrlDiv.appendChild(btnDown);
+          item.appendChild(labelSpan);
+          item.appendChild(ctrlDiv);
+
+          // Event Drag and Drop HTML5
+          item.addEventListener("dragstart", e => {
+            item.classList.add("dragging");
+            e.dataTransfer.setData("text/plain", index.toString());
+          });
+          item.addEventListener("dragend", () => item.classList.remove("dragging"));
+          item.addEventListener("dragover", e => e.preventDefault());
+          item.addEventListener("drop", e => {
+            e.preventDefault();
+            const fromIdx = parseInt(e.dataTransfer.getData("text/plain"), 10);
+            const toIdx = index;
+            if (!isNaN(fromIdx) && fromIdx !== toIdx) {
+              const moved = gameState.tempOrderList.splice(fromIdx, 1)[0];
+              gameState.tempOrderList.splice(toIdx, 0, moved);
+              sound.click();
+              rebuildOrderDOM();
+            }
+          });
+
+          listEl.appendChild(item);
+        });
+      }
+
+      rebuildOrderDOM();
+      container.appendChild(listEl);
+    }
+
+    /* ==========================================================================
+       BAGIAN 7: EVALUASI JAWABAN, UMPAN BALIK INSTAN, DAN NYAWA
+       ========================================================================== */
+    function evaluateMCQ(isCorrect, q, clickedBtn, gridContainer) {
+      if (isCorrect) {
+        gridContainer.querySelectorAll("button").forEach(b => (b.disabled = true));
+        clickedBtn.classList.add("selected");
+        handleCorrectAnswer(q);
+      } else {
+        // Jika Pre-test atau Post-test, langsung catat salah dan lanjut agar pengukuran objektif
+        if (gameState.phase === "pretest" || gameState.phase === "posttest") {
+          gridContainer.querySelectorAll("button").forEach(b => (b.disabled = true));
+          stopQuestionTimer();
+          sound.wrong();
+          showFeedback(
+            false,
+            `Kurang tepat. Penjelasan: ${q.explanation}`,
+            true
+          );
+        } else {
+          clickedBtn.disabled = true;
+          handleWrongAttempt(q, "Pilihan tersebut belum menyelesaikan akar masalah kasus ini.");
+        }
+      }
+    }
+
+    function evaluateOrderingSubmission() {
+      const q = gameState.activeQuestions[gameState.currentQuestionIdx];
+      if (!q || q.type !== "order") return;
+
+      let correctCount = 0;
+      gameState.tempOrderList.forEach((item, idx) => {
+        if (item === q.correctOrder[idx]) correctCount++;
+      });
+
+      if (correctCount === q.correctOrder.length) {
+        document.getElementById("quizActionRow").classList.add("hidden");
+        handleCorrectAnswer(q);
+      } else {
+        handleWrongAttempt(
+          q,
+          `Baru ${correctCount} dari ${q.correctOrder.length} tahapan yang berada di posisi urutan yang tepat.`
+        );
+      }
+    }
+
+    function handleCorrectAnswer(q) {
+      stopQuestionTimer();
+      sound.correct();
+
+      if (gameState.phase === "pretest") {
+        gameState.preTestCorrect++;
+        showFeedback(true, `Tepat sekali! ${q.explanation}`, true);
+        return;
+      }
+
+      if (gameState.phase === "posttest") {
+        gameState.postTestCorrect++;
+        gameState.score += 100;
+        updateHUD();
+        showFeedback(true, `Benar! ${q.explanation}`, true);
+        return;
+      }
+
+      // Di dalam Level 1-5
+      gameState.combo++;
+      const multiplier = Math.min(1 + Math.floor(gameState.combo / 2), 4);
+      const basePoints = gameState.questionAttempt === 0 ? 100 : 50;
+      const earned = basePoints * multiplier;
+      gameState.score += earned;
+
+      const stat = gameState.levelStats[gameState.currentLevelIdx];
+      stat.completed++;
+      if (gameState.questionAttempt === 0) {
+        stat.correctFirstTry++;
+      }
+
+      updateHUD();
+      showFeedback(
+        true,
+        `Keputusan Desain Tepat! (+${earned} poin). ${q.explanation}`,
+        true
+      );
+    }
+
+    function handleWrongAttempt(q, specificErrorMsg) {
+      sound.wrong();
+      const quizCard = document.getElementById("screenQuiz");
+      quizCard.classList.remove("shake");
+      void quizCard.offsetWidth;
+      quizCard.classList.add("shake");
+
+      gameState.questionAttempt++;
+      gameState.combo = 0;
+      gameState.lives = Math.max(0, gameState.lives - 1);
+      updateHUD();
+
+      if (gameState.lives <= 0) {
+        stopQuestionTimer();
+        openOutOfLivesModal();
+        return;
+      }
+
+      // Percobaan pertama salah: beri petunjuk (scaffolding) tanpa membocorkan jawaban
+      showFeedback(
+        false,
+        `${specificErrorMsg} 💡 Petunjuk Berpikir: ${q.hint} (Silakan coba pilih/susun kembali!)`,
+        false
+      );
+    }
+
+    function handleTimeOut() {
+      const q = gameState.activeQuestions[gameState.currentQuestionIdx];
+      if (gameState.phase === "pretest" || gameState.phase === "posttest") {
+        sound.wrong();
+        showFeedback(false, `Waktu habis! ${q.explanation}`, true);
+      } else {
+        handleWrongAttempt(q, "Waktu habis untuk tantangan ini!");
+        if (gameState.lives > 0) {
+          startQuestionTimer();
+        }
+      }
+    }
+
+    function showFeedback(isSuccess, message, showNextBtn) {
+      const box = document.getElementById("quizFeedback");
+      const title = document.getElementById("feedbackTitle");
+      const text = document.getElementById("feedbackText");
+      const btnNext = document.getElementById("btnLanjutSoal");
+
+      box.classList.remove("hidden", "correct", "wrong");
+      box.classList.add(isSuccess ? "correct" : "wrong");
+
+      title.textContent = isSuccess ? "✅ Analisis Tepat!" : "⚠️ Perlu Ditinjau Ulang";
+      text.textContent = message;
+
+      if (showNextBtn) {
+        btnNext.classList.remove("hidden");
+        btnNext.focus();
+      } else {
+        btnNext.classList.add("hidden");
+      }
+    }
+
+    function nextQuestionOrStage() {
+      sound.click();
+      gameState.currentQuestionIdx++;
+
+      if (gameState.currentQuestionIdx < gameState.activeQuestions.length) {
+        renderCurrentQuestion();
+        return;
+      }
+
+      // Jika rangkaian soal pada tahap ini sudah selesai
+      if (gameState.phase === "pretest") {
+        showLevelBriefing(0);
+      } else if (gameState.phase === "level") {
+        completeCurrentLevel();
+      } else if (gameState.phase === "posttest") {
+        finishEntireGame();
+      }
+    }
+
+    function completeCurrentLevel() {
+      stopQuestionTimer();
+      sound.levelUp();
+      triggerConfetti();
+
+      const lvl = BANK_DATA_GAME.levels[gameState.currentLevelIdx];
+      const stat = gameState.levelStats[gameState.currentLevelIdx];
+      const acc = Math.round((stat.correctFirstTry / stat.total) * 100);
+
+      if (!gameState.unlockedBadges.some(b => b.id === lvl.badge.id)) {
+        gameState.unlockedBadges.push(lvl.badge);
+      }
+
+      document.getElementById("completeTitle").textContent = `${lvl.title} Tuntas!`;
+      document.getElementById("completeSummary").textContent =
+        `Kasus di ${lvl.schoolName} berhasil diselesaikan dengan akurasi percobaan pertama ${acc}% dan total skor sementara ${gameState.score} poin.`;
+
+      document.getElementById("earnedBadgeIcon").textContent = lvl.badge.icon;
+      document.getElementById("earnedBadgeName").textContent = `Lencana Baru: ${lvl.badge.name}`;
+      document.getElementById("earnedBadgeDesc").textContent = lvl.badge.desc;
+
+      const btnNextLvl = document.getElementById("btnLanjutLevelBerikutnya");
+      if (gameState.currentLevelIdx < BANK_DATA_GAME.levels.length - 1) {
+        btnNextLvl.textContent = `🚀 Lanjut ke Level ${gameState.currentLevelIdx + 2}`;
+      } else {
+        btnNextLvl.textContent = "🏁 Lanjut ke Post-Test Akhir";
+      }
+
+      showScreen("screenLevelComplete");
+    }
+
+    function proceedAfterLevelComplete() {
+      sound.click();
+      const refl = document.getElementById("selectRefleksi").value;
+      gameState.reflections.push(`Level ${gameState.currentLevelIdx + 1}: ${refl}`);
+
+      if (gameState.currentLevelIdx < BANK_DATA_GAME.levels.length - 1) {
+        // Pulihkan 1 hati sebagai hadiah ketuntasan level (maks 3)
+        gameState.lives = Math.min(3, gameState.lives + 1);
+        showLevelBriefing(gameState.currentLevelIdx + 1);
+      } else {
+        startPostTest();
+      }
+    }
+
+    /* ==========================================================================
+       BAGIAN 8: LAYAR HASIL AKHIR, REKOMENDASI, DAN UNDUH LAPORAN UJI (.TXT)
+       ========================================================================== */
+    function finishEntireGame() {
+      stopQuestionTimer();
+      sound.levelUp();
+      triggerConfetti();
+
+      const preScore = Math.round((gameState.preTestCorrect / BANK_DATA_GAME.preTest.length) * 100);
+      const postScore = Math.round((gameState.postTestCorrect / BANK_DATA_GAME.postTest.length) * 100);
+      const diff = postScore - preScore;
+
+      document.getElementById("resultGreeting").textContent =
+        `Selamat, ${gameState.playerName}! Kamu telah menyelesaikan seluruh kasus sekolah di Magetan dengan Total Skor Akhir ${gameState.score} poin.`;
+
+      document.getElementById("resultPrePostText").textContent =
+        `Skor Pre-Test: ${preScore}/100  ➡️  Skor Post-Test: ${postScore}/100 (${diff >= 0 ? "+" + diff : diff} poin)`;
+
+      // Hitung N-Gain sederhana
+      let gainText = "";
+      if (preScore === 100 && postScore === 100) {
+        gainText = "Pemahaman konseptual sangat konsisten di level maksimal (100%).";
+      } else if (diff > 0) {
+        const nGain = ((postScore - preScore) / (100 - preScore)).toFixed(2);
+        gainText = `Terjadi peningkatan pemahaman positif dengan indeks N-Gain sebesar ${nGain} setelah memainkan 5 level simulasi.`;
+      } else {
+        gainText = "Disarankan meninjau kembali Buku Saku TP dan mencoba kembali untuk memperkuat retensi konsep.";
+      }
+      document.getElementById("resultGainAnalysis").textContent = gainText;
+
+      // Render Lencana
+      const badgeGrid = document.getElementById("finalBadgeGrid");
+      badgeGrid.innerHTML = "";
+      BANK_DATA_GAME.levels.forEach(lvl => {
+        const isUnlocked = gameState.unlockedBadges.some(b => b.id === lvl.badge.id);
+        const card = document.createElement("div");
+        card.className = `badge-card ${isUnlocked ? "unlocked" : ""}`;
+        card.innerHTML = `
+          <span class="badge-icon">${lvl.badge.icon}</span>
+          <strong style="font-size:0.88rem; display:block;">${lvl.badge.name}</strong>
+        `;
+        badgeGrid.appendChild(card);
+      });
+
+      // Render Tabel Akurasi per Level & Identifikasi Materi Lemah
+      const tbody = document.getElementById("resultLevelTableBody");
+      tbody.innerHTML = "";
+      const weakTopics = [];
+
+      BANK_DATA_GAME.levels.forEach((lvl, idx) => {
+        const stat = gameState.levelStats[idx];
+        const acc = Math.round((stat.correctFirstTry / stat.total) * 100);
+        const statusLabel = acc >= 75 ? "✅ Sangat Baik" : "⚠️ Perlu Penguatan";
+        if (acc < 75) {
+          weakTopics.push(lvl.title);
+        }
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${lvl.title}</td>
+          <td>${lvl.schoolName}</td>
+          <td><strong>${acc}%</strong> (${stat.correctFirstTry}/${stat.total})</td>
+          <td>${statusLabel}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const recText = document.getElementById("resultRecommendationText");
+      if (weakTopics.length === 0) {
+        recText.textContent =
+          "Luar biasa! Seluruh level materi mencapai akurasi di atas 75% pada percobaan pertama. Kamu siap mengaplikasikan prinsip Desain Pembelajaran dan Teknologi Pendidikan pada proyek nyata.";
+      } else {
+        recText.textContent =
+          `Materi yang masih memerlukan penguatan: ${weakTopics.join(", ")}. Rekomendasi: Buka menu 'Buku Saku TP' di bagian atas untuk meninjau rangkuman konsep tersebut, lalu cobalah melatih analisis kasus kembali.`;
+      }
+
+      // Simpan ke Papan Skor Lokal
+      saveScoreToLeaderboard({
+        name: gameState.playerName,
+        score: gameState.score,
+        preScore,
+        postScore,
+        date: new Date().toLocaleDateString("id-ID")
+      });
+
+      showScreen("screenResult");
+    }
+
+    // Fungsi Unduh Laporan Hasil Uji (.txt) untuk Bukti Pengujian Tugas Kuliah
+    function downloadTestReport() {
+      sound.click();
+      const now = new Date();
+      const preScore = Math.round((gameState.preTestCorrect / BANK_DATA_GAME.preTest.length) * 100);
+      const postScore = Math.round((gameState.postTestCorrect / BANK_DATA_GAME.postTest.length) * 100);
+      const diff = postScore - preScore;
+
+      let lines = [
+        "======================================================================",
+        "LAPORAN HASIL UJI COBA GAME EDUKASI: MISI DESAINER PEMBELAJARAN",
+        "Proyek Akhir Berbantuan AI — S1 Teknologi Pendidikan",
+        "======================================================================",
+        `Nama Mahasiswa / Pemain : ${gameState.playerName}`,
+        `Tanggal & Waktu Uji     : ${now.toLocaleString("id-ID")}`,
+        `Total Skor Permainan    : ${gameState.score} Poin`,
+        `Lencana yang Diraih     : ${gameState.unlockedBadges.map(b => b.name).join(", ") || "-"}`,
+        "",
+        "--- BUKTI EFEKTIVITAS PEMBELAJARAN (PRE-TEST VS POST-TEST) ---",
+        `Skor Pre-Test Awal      : ${preScore} / 100 (${gameState.preTestCorrect}/5 benar)`,
+        `Skor Post-Test Akhir    : ${postScore} / 100 (${gameState.postTestCorrect}/5 benar)`,
+        `Selisih Peningkatan     : ${diff >= 0 ? "+" + diff : diff} poin`,
+        "",
+        "--- RINCIAN AKURASI PER LEVEL MATERI (PERCOBAAN PERTAMA) ---"
+      ];
+
+      BANK_DATA_GAME.levels.forEach((lvl, idx) => {
+        const st = gameState.levelStats[idx];
+        const acc = Math.round((st.correctFirstTry / st.total) * 100);
+        lines.push(`${lvl.title} [${lvl.schoolName}] : Akurasi ${acc}% (${st.correctFirstTry}/${st.total} soal)`);
+      });
+
+      lines.push("");
+      lines.push("--- CATATAN REFLEKSI PEMBELAJARAN PEMAIN ---");
+      if (gameState.reflections.length > 0) {
+        gameState.reflections.forEach(r => lines.push(`* ${r}`));
+      } else {
+        lines.push("* Tidak ada catatan refleksi.");
+      }
+      lines.push("======================================================================");
+
+      const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      const safeName = gameState.playerName.replace(/[^a-zA-Z0-9]/g, "_").toLowerCase();
+      link.href = url;
+      link.download = `Laporan_Uji_Misi_Desainer_${safeName}.txt`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+
+    /* ==========================================================================
+       BAGIAN 9: MODAL DIALOG (CARA BERMAIN, BUKU SAKU, PAPAN SKOR, NYAWA HABIS)
+       ========================================================================== */
+    function openModal(titleText, bodyHTML, allowClose = true) {
+      document.getElementById("modalTitle").textContent = titleText;
+      document.getElementById("modalBody").innerHTML = bodyHTML;
+      const closeBtn = document.getElementById("btnTutupModal");
+      if (allowClose) {
+        closeBtn.classList.remove("hidden");
+      } else {
+        closeBtn.classList.add("hidden");
+      }
+      document.getElementById("modalOverlay").classList.remove("hidden");
+    }
+
+    function closeModal() {
+      sound.click();
+      document.getElementById("modalOverlay").classList.add("hidden");
+    }
+
+    function openHowToPlayModal() {
+      sound.click();
+      const html = `
+        <p><strong>Alur Ekspedisi Desainer Pembelajaran:</strong></p>
+        <ol style="margin-left:20px; margin-bottom:14px; color:var(--text-muted);">
+          <li><strong>Pre-Test (5 Soal):</strong> Mengukur pemahaman awalmu sebelum masuk ke misi sekolah.</li>
+          <li><strong>5 Level Kasus Sekolah di Magetan (30 Tantangan):</strong>
+            <ul style="margin-left:18px; margin-top:4px;">
+              <li><em>Level 1 (SDN 1 Sarangan):</em> Definisi & 5 Kawasan Teknologi Pendidikan.</li>
+              <li><em>Level 2 (SMPN 2 Takeran):</em> Teori Belajar & Analisis Studi Kasus.</li>
+              <li><em>Level 3 (SMAN 1 Maospati):</em> Menyusun Tahapan Model ADDIE.</li>
+              <li><em>Level 4 (SMKN 1 Panekan):</em> Simulasi Pemilihan Media & Anggaran.</li>
+              <li><em>Level 5 (Pusat Inovasi Magetan):</em> Boss Level Evaluasi & Etika AI.</li>
+            </ul>
+          </li>
+          <li><strong>Sistem Scaffolding & Hati:</strong> Kamu memiliki 3 hati ❤️. Jika salah pada percobaan pertama, jawaban tidak langsung dibocorkan, melainkan muncul petunjuk berpikir (hint) agar kamu bisa menganalisis ulang.</li>
+          <li><strong>Post-Test & Unduh Laporan:</strong> Di akhir permainan, bandingkan skor Pre-Test dan Post-Test lalu unduh bukti pengujian resmimu!</li>
+        </ol>
+      `;
+      openModal("🧭 Cara Bermain & Peta Misi", html, true);
+    }
+
+    function openStudyGuideModal() {
+      sound.click();
+      let html = `<p>Gunakan ringkasan konsep inti Teknologi Pendidikan di bawah ini sebagai referensi belajar kapan saja:</p>`;
+      BANK_DATA_GAME.studyGuide.forEach(item => {
+        html += `
+          <div class="scenario-box" style="margin-bottom:10px;">
+            <h3 style="color:var(--primary); margin-bottom:4px;">${item.title}</h3>
+            <p style="margin-bottom:0; white-space:pre-line; font-size:0.9rem;">${item.content}</p>
+          </div>
+        `;
+      });
+      openModal("📖 Buku Saku Teknologi Pendidikan", html, true);
+    }
+
+    function openLeaderboardModal() {
+      sound.click();
+      const list = loadLeaderboard();
+      let html = "";
+      if (list.length === 0) {
+        html = `<p>Belum ada riwayat skor tersimpan. Selesaikan ekspedisi pertamamu untuk mencatat rekor di papan skor!</p>`;
+      } else {
+        html = `
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Peringkat</th>
+                <th>Nama Mahasiswa</th>
+                <th>Skor Total</th>
+                <th>Pre ➡️ Post</th>
+                <th>Tanggal</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${list
+                .map(
+                  (item, idx) => `
+                <tr>
+                  <td>#${idx + 1}</td>
+                  <td><strong>${item.name}</strong></td>
+                  <td>${item.score}</td>
+                  <td>${item.preScore} ➡️ ${item.postScore}</td>
+                  <td>${item.date}</td>
+                </tr>
+              `
+                )
+                .join("")}
+            </tbody>
+          </table>
+        `;
+      }
+      openModal("🏆 Papan Skor Desainer Terbaik", html, true);
+    }
+
+    function openOutOfLivesModal() {
+      const lvl = BANK_DATA_GAME.levels[gameState.currentLevelIdx];
+      const html = `
+        <p>Ketiga hati semangatmu (❤️❤️❤️) habis saat memecahkan kasus di <strong>${lvl.schoolName}</strong>.</p>
+        <p>Jangan khawatir! Seorang Desainer Pembelajaran sejati selalu belajar dari iterasi dan revisi. Kamu bisa memulihkan 3 hati dan mengulang level ini tanpa kehilangan progres level sebelumnya.</p>
+        <button id="btnRetryCurrentLevel" class="btn btn-primary" type="button" style="margin-top:8px;">
+          🔄 Pulihkan 3 Hati & Ulangi ${lvl.title}
+        </button>
+      `;
+      openModal("💔 Nyawa Semangat Habis!", html, false);
+
+      const retryBtn = document.getElementById("btnRetryCurrentLevel");
+      if (retryBtn) {
+        retryBtn.addEventListener("click", () => {
+          sound.click();
+          gameState.lives = 3;
+          gameState.combo = 0;
+          gameState.levelStats[gameState.currentLevelIdx] = {
+            correctFirstTry: 0,
+            completed: 0,
+            total: lvl.questions.length
+          };
+          closeModal();
+          showLevelBriefing(gameState.currentLevelIdx);
+        });
+      }
+    }
+
+    /* ==========================================================================
+       BAGIAN 10: INISIALISASI EVENT LISTENER (TANPA TAG FORM HTML)
+       ========================================================================== */
+    window.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("btnMulaiGame").addEventListener("click", startNewGame);
+      document.getElementById("btnCaraBermain").addEventListener("click", openHowToPlayModal);
+      document.getElementById("btnBantuan").addEventListener("click", openStudyGuideModal);
+      document.getElementById("btnPapanSkor").addEventListener("click", openLeaderboardModal);
+      document.getElementById("btnTutupModal").addEventListener("click", closeModal);
+
+      document.getElementById("btnMulaiLevel").addEventListener("click", startActiveLevel);
+      document.getElementById("btnKirimJawaban").addEventListener("click", evaluateOrderingSubmission);
+      document.getElementById("btnLanjutSoal").addEventListener("click", nextQuestionOrStage);
+      document.getElementById("btnLanjutLevelBerikutnya").addEventListener("click", proceedAfterLevelComplete);
+
+      document.getElementById("btnUnduhLaporan").addEventListener("click", downloadTestReport);
+      document.getElementById("btnMainLagi").addEventListener("click", () => {
+        sound.click();
+        showScreen("screenStart");
+      });
+
+      // Tombol Mute / Unmute Suara
+      const btnSuara = document.getElementById("btnSuara");
+      btnSuara.addEventListener("click", () => {
+        sound.muted = !sound.muted;
+        btnSuara.setAttribute("aria-pressed", String(sound.muted));
+        btnSuara.textContent = sound.muted ? "🔇 Suara: Senyap" : "🔊 Suara: Aktif";
+        if (!sound.muted) sound.click();
+      });
+
+      // Dukungan tombol Enter pada kolom input nama pemain
+      document.getElementById("inputNamaPemain").addEventListener("keydown", e => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          startNewGame();
+        }
+      });
+
+      // Tutup modal dengan tombol Escape jika tombol tutup aktif
+      window.addEventListener("keydown", e => {
+        if (e.key === "Escape") {
+          const modal = document.getElementById("modalOverlay");
+          const closeBtn = document.getElementById("btnTutupModal");
+          if (!modal.classList.contains("hidden") && !closeBtn.classList.contains("hidden")) {
+            closeModal();
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
